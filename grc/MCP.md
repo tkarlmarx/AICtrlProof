@@ -38,13 +38,20 @@ is the same. Restart the client after editing.
 
 | Tool | Arguments | Returns |
 | --- | --- | --- |
-| `list_questions` | `domain?`, `framework?` | the question bank, filtered |
-| `run_assessment` | `answers?`, `use_lab_evidence?` | overall residual risk, per-domain, framework coverage, findings |
-| `control_coverage` | `framework?` | controls referenced, addressed, verified per framework |
+| `list_profiles` | none | system types: `core` (always), `app`, `agent`, `mcp` |
+| `list_questions` | `domain?`, `framework?`, `profile?` | the question bank, filtered |
+| `get_question` | `id` | one question with its 4 answer options, AI policy clauses, framework tags, NIST metric |
+| `run_assessment` | `answers?`, `use_lab_evidence?`, `profiles?` | overall residual risk, per-domain, framework coverage, AI policy compliance, NIST metrics, findings |
+| `control_coverage` | `framework?`, `profiles?` | controls referenced, addressed, verified per framework |
+| `policy_coverage` | `answers?`, `profiles?` | per AI policy clause: controls at maturity 2+, verified, met or not |
+| `nist_metrics` | `profiles?` | the NIST AI RMF metric and target for each control, measured or still to define |
 | `verified_controls` | none | the tested controls and their live evidence |
 | `explain_mapping` | `framework`, `clause?` | which questions map to a framework clause |
 
-`answers` maps a question id to `{"maturity": 0-3, "note": "..."}`. Tested
+`answers` maps a question id to `{"maturity": 0-3, "note": "..."}`, where
+maturity is the index of the chosen option from `get_question`, or
+`{"na": true, "note": "why"}` for a question that does not apply. `profiles`
+limits scope, for example `["agent", "mcp"]`; core questions always apply. Tested
 questions ignore it and fill from the lab when `use_lab_evidence` is true.
 
 ## Example calls
@@ -56,6 +63,9 @@ questions ignore it and fill from the lab when `use_lab_evidence` is true.
   `verified_controls`.
 - "How much of the EU AI Act do we touch?" ->
   `control_coverage("EU AI Act")`.
+- "Assess our MCP servers" -> `run_assessment(profiles=["mcp"])`.
+- "Which AI policy clauses are we failing?" -> `policy_coverage`.
+- "What should we measure for NIST?" -> `nist_metrics`.
 
 ## Notes
 

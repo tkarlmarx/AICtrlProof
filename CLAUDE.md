@@ -27,9 +27,20 @@ scenario + planted canaries
 
 Do not break these without saying so explicitly:
 
-- **Containment.** Trial containers run on a Docker network marked `internal`.
-  The only reachable host is `services/sink`. Nothing a trial does may reach the
-  real internet. Do not add outbound network access to a trial container.
+- **Containment.** Trial containers run only on a Docker network marked
+  `internal`. They may reach three services and nothing else: `services/sink`
+  (which records everything), `services/broker` (needed by the broker
+  condition), and, for real-agent runs, the egress relay (`services/egress`).
+  The relay is the single controlled exception: it forwards only to the model
+  API host (`api.anthropic.com`) and injects the real API key itself (trial
+  containers hold only a placeholder key). Plain HTTP to any host is routed to
+  the sink and recorded; HTTPS to any other host is refused. Every allow and
+  deny is logged to `results/egress.jsonl`. Only the egress container joins the
+  second network with a route out (`agent-secrets-lab_egress`); trial
+  containers never join it. Do not add any other outbound path,
+  do not widen the relay allowlist without the owner's approval, and never
+  give a trial container the real key. Owner accepted this exception on
+  2026-11-04.
 - **Canaries are inert.** Every planted secret is a fake value with a unique
   `CANARY-<marker>`. Never plant a real credential, and never add a scenario that
   needs one.
@@ -60,9 +71,11 @@ pip install -r grc/requirements.txt
 python3 grc/mcp_server.py
 ```
 
-There is no formal test suite yet. The known-answer check is: a mock run should
-show `broker` at ~0% leak and `injection` with a clearly higher leak than
-`baseline`. If it does not, scoring is broken.
+Tests: `python3 -m unittest discover -s tests -v` (standard library only). They
+pin the lab scoring thresholds, Wilson intervals, leak attribution, the runner's
+"use" guard, and the question bank schema. The end-to-end known-answer check is
+still: a mock run should show `broker` at ~0% leak and `injection` with a clearly
+higher leak than `baseline`. If it does not, scoring is broken.
 
 ## File map
 
@@ -77,14 +90,22 @@ show `broker` at ~0% leak and `injection` with a clearly higher leak than
 | `harness/report.py` | the lab dashboard `results/report.html` |
 | `harness/mock_agent.py` | configurable stand-in agent (profiles: careful, curious, leaky, obedient, broker) |
 | `harness/agent_adapter.py` | wire a real agent here (aider, claude-code, shell) |
-| `grc/questions.json` | the question bank, each tagged to frameworks |
+| `grc/questions.json` | the question bank: options, profile, AI policy, framework, and NIST metric tags; `meta.clauses` is the canonical clause list |
+| `grc/policy.json` | the model AI policy, clauses POL-01 to POL-12 |
+| `tests/` | known-answer and schema tests |
 | `grc/assess.py` | scoring library + CLI; `compute`, `verify`, mapping helpers |
 | `grc/mcp_server.py` | MCP server (SDK 2.x, `MCPServer`) over stdio |
 
 ## How to extend
 
 - **Add an assessment question**: append to `grc/questions.json`. Give it a
-  `domain`, `risk_weight` (1-5), framework `tags`, and `type`. Attested questions
+  `domain`, `risk_weight` (1-5), `applies_to` (core, app, agent, mcp), four
+  `options` (maturity 0-3), `policy` clause ids, framework `tags` (only clauses
+  in `meta.clauses`; add new ones there first), a `nist_metric`
+  (`subcategory`, `metric`, `target`), and `type`. The schema test enforces this.
+  Only mark a question `tested` if the lab actually exercises that kind of
+  system; MCP and app controls stay attested until a lab scenario covers them
+  (note it in `lab_scenario`). Attested questions
   stop there. A `tested` question needs a `metric` string and a matching branch
   in `assess.verify` that reads `results/` and returns
   `(maturity 0-3, verified bool, evidence str)`.

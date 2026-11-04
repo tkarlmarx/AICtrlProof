@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "name": "Model AI policy",
+    "version": "0.1",
+    "note": "A reference AI policy. Every assessment question is tagged to the clause(s) it evidences, so the assessment doubles as a policy compliance check. Adapt the statements to your organisation; keep the ids stable."
+  },
+  "clauses": [
+    {"id": "POL-01", "title": "Scope, ownership and accountability",
+     "statement": "Every AI system, agent, and MCP server in use is recorded in an inventory and has one named accountable owner."},
+    {"id": "POL-02", "title": "Acceptable and prohibited use",
+     "statement": "AI may be used only for approved purposes. Prohibited uses and the escalation route are written down and communicated."},
+    {"id": "POL-03", "title": "Risk classification and assessment",
+     "statement": "Each AI system is risk-classified and assessed before deployment and again on any material change."},
+    {"id": "POL-04", "title": "Data protection and secrets",
+     "statement": "AI systems receive only the data a task needs. Secrets and credentials never enter prompts, context, memory, logs, or training data."},
+    {"id": "POL-05", "title": "Identity, access and least privilege",
+     "statement": "Agents and AI tools act under their own identity with short-lived, narrowly scoped access. No standing access to secrets."},
+    {"id": "POL-06", "title": "Human oversight and autonomy limits",
+     "statement": "Autonomy limits are defined per system. High-impact actions require human approval, and a human can pause or stop any agent."},
+    {"id": "POL-07", "title": "Third-party models, tools and MCP servers",
+     "statement": "Models, plugins, MCP servers and their dependencies come from approved sources, are version-pinned, and are reviewed before use and on change."},
+    {"id": "POL-08", "title": "Security testing and evaluation",
+     "statement": "AI systems are tested for security, accuracy and misuse before release and on a schedule, with results recorded against defined metrics."},
+    {"id": "POL-09", "title": "Logging, monitoring and incident response",
+     "statement": "AI actions and tool calls are logged and monitored. AI incidents follow the incident process, including regulatory reporting where required."},
+    {"id": "POL-10", "title": "Transparency and user disclosure",
+     "statement": "People are told when they interact with AI or receive AI-generated content, and system documentation states purpose, limits and known failure modes."},
+    {"id": "POL-11", "title": "Change management and lifecycle",
+     "statement": "Changes to models, prompts, tools and configuration go through change control, and retired systems are decommissioned with their access removed."},
+    {"id": "POL-12", "title": "Training and AI literacy",
+     "statement": "Staff who build, run or use AI systems are trained on this policy and on the risks of the systems they use."}
+  ]
+}

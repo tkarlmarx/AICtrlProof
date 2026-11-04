@@ -1,159 +1,2181 @@
 {
   "meta": {
     "name": "AI system risk assessment",
-    "version": "0.1",
+    "version": "0.2",
     "scale": "maturity 0 (absent) to 3 (operating and evidenced)",
-    "frameworks": ["NIST AI RMF 1.0", "ISO/IEC 42001:2023", "EU AI Act", "ISO/IEC 27001:2022", "SOC 2 (TSC)", "OWASP LLM Top 10"]
+    "frameworks": [
+      "NIST AI RMF 1.0",
+      "NIST AI 600-1 (GenAI profile)",
+      "ISO/IEC 42001:2023",
+      "EU AI Act",
+      "ISO/IEC 27001:2022",
+      "SOC 2 (TSC)",
+      "OWASP LLM Top 10 (2025)",
+      "OWASP Agentic Top 10 (2026)",
+      "OWASP MCP Top 10 (2025, beta)"
+    ],
+    "profiles": {
+      "core": "Any AI system. Always included.",
+      "app": "Applications using AI: chatbots, copilots, RAG and LLM features inside a product.",
+      "agent": "Agentic AI bots that plan and take actions with tools, code, or other agents.",
+      "mcp": "MCP servers and clients that expose tools, data, or prompts to models."
+    },
+    "tag_groups": {
+      "policy": "Clause ids in grc/policy.json (the model AI policy).",
+      "tags": "Compliance: clauses in each framework. Only clauses listed in meta.clauses are allowed.",
+      "nist_metric": "A measurable indicator for the control, keyed to a NIST AI RMF subcategory, with a suggested target."
+    },
+    "mapping_note": "Mappings are indicative. OWASP Agentic short names follow the OWASP GenAI Security Project list of December 2025; OWASP MCP Top 10 is a beta project. Confirm against the current text of each framework before putting them in front of an auditor.",
+    "clauses": {
+      "NIST AI RMF": [
+        "GOVERN 1.1",
+        "GOVERN 1.2",
+        "GOVERN 1.6",
+        "GOVERN 2.1",
+        "GOVERN 2.2",
+        "MANAGE 1.1",
+        "MANAGE 2.1",
+        "MANAGE 2.2",
+        "MANAGE 2.3",
+        "MANAGE 2.4",
+        "MANAGE 4.1",
+        "MANAGE 4.3",
+        "MAP 1.1",
+        "MAP 3.1",
+        "MAP 4.1",
+        "MAP 5.1",
+        "MEASURE 1.1",
+        "MEASURE 2.1",
+        "MEASURE 2.10",
+        "MEASURE 2.3",
+        "MEASURE 2.5",
+        "MEASURE 2.7",
+        "MEASURE 2.8",
+        "MEASURE 3.3"
+      ],
+      "NIST AI 600-1": [
+        "Confabulation",
+        "Data Privacy",
+        "Human-AI Configuration",
+        "Information Integrity",
+        "Information Security",
+        "Intellectual Property",
+        "Value Chain and Component Integration"
+      ],
+      "ISO/IEC 42001": [
+        "A.10.3",
+        "A.2.2",
+        "A.3.2",
+        "A.4.2",
+        "A.5.2",
+        "A.5.4",
+        "A.6.2",
+        "A.7.2",
+        "A.7.3",
+        "A.8.2",
+        "A.8.3",
+        "A.8.4",
+        "A.9.2",
+        "A.9.3"
+      ],
+      "EU AI Act": [
+        "Art 10",
+        "Art 11",
+        "Art 12",
+        "Art 13",
+        "Art 14",
+        "Art 15",
+        "Art 17",
+        "Art 25",
+        "Art 26",
+        "Art 27",
+        "Art 4",
+        "Art 43",
+        "Art 49",
+        "Art 5",
+        "Art 50",
+        "Art 53",
+        "Art 6",
+        "Art 72",
+        "Art 73",
+        "Art 9"
+      ],
+      "ISO/IEC 27001": [
+        "A.5.1",
+        "A.5.15",
+        "A.5.16",
+        "A.5.17",
+        "A.5.19",
+        "A.5.21",
+        "A.5.24",
+        "A.5.26",
+        "A.5.33",
+        "A.5.9",
+        "A.6.3",
+        "A.8.11",
+        "A.8.15",
+        "A.8.16",
+        "A.8.19",
+        "A.8.2",
+        "A.8.22",
+        "A.8.24",
+        "A.8.28",
+        "A.8.29",
+        "A.8.32",
+        "A.8.5",
+        "A.8.6",
+        "A.8.9"
+      ],
+      "SOC 2": [
+        "A1.1",
+        "CC1.3",
+        "CC2.2",
+        "CC3.2",
+        "CC6.1",
+        "CC6.2",
+        "CC6.3",
+        "CC6.6",
+        "CC6.8",
+        "CC7.2",
+        "CC7.4",
+        "CC8.1",
+        "CC9.2"
+      ],
+      "OWASP LLM": [
+        "LLM01 Prompt Injection",
+        "LLM02 Sensitive Information Disclosure",
+        "LLM03 Supply Chain",
+        "LLM04 Data and Model Poisoning",
+        "LLM05 Improper Output Handling",
+        "LLM06 Excessive Agency",
+        "LLM07 System Prompt Leakage",
+        "LLM08 Vector and Embedding Weaknesses",
+        "LLM09 Misinformation",
+        "LLM10 Unbounded Consumption"
+      ],
+      "OWASP Agentic": [
+        "ASI01 Agent Goal Hijack",
+        "ASI02 Tool Misuse and Exploitation",
+        "ASI03 Identity and Privilege Abuse",
+        "ASI04 Supply Chain",
+        "ASI05 Code Execution",
+        "ASI06 Memory Poisoning",
+        "ASI07 Inter-Agent Communication",
+        "ASI08 Cascading Failures",
+        "ASI09 Human-Agent Trust Exploitation",
+        "ASI10 Rogue Agents"
+      ],
+      "OWASP MCP": [
+        "MCP01:2025 Token Mismanagement and Secret Exposure",
+        "MCP02:2025 Privilege Escalation via Scope Creep",
+        "MCP03:2025 Tool Poisoning",
+        "MCP04:2025 Software Supply Chain Attacks and Dependency Tampering",
+        "MCP05:2025 Command Injection and Execution",
+        "MCP06:2025 Prompt Injection via Contextual Payloads",
+        "MCP07:2025 Insufficient Authentication and Authorization",
+        "MCP08:2025 Lack of Audit and Telemetry",
+        "MCP09:2025 Shadow MCP Servers",
+        "MCP10:2025 Context Injection and Over-Sharing"
+      ]
+    },
+    "answers_note": "An answer may be {\"maturity\": 0-3, \"note\": \"...\"} or {\"na\": true, \"note\": \"why\"} to exclude a question that does not apply (attested questions only)."
   },
   "questions": [
     {
       "id": "GOV-1",
       "domain": "Governance and accountability",
+      "applies_to": [
+        "core"
+      ],
       "question": "Is there a named owner accountable for the AI system and its risks?",
       "guidance": "A single accountable owner, not a committee in the abstract.",
       "risk_weight": 4,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["GOVERN 2.1"], "ISO/IEC 42001": ["A.3.2"], "EU AI Act": ["Art 17"], "SOC 2": ["CC1.3"]}
+      "options": [
+        "No owner identified.",
+        "An informal owner everyone assumes, not written down.",
+        "Owner named in the inventory, but not tied to risk sign-off.",
+        "Named owner in the inventory who signs off risk and is reviewed yearly."
+      ],
+      "policy": [
+        "POL-01"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.3.2"
+        ],
+        "EU AI Act": [
+          "Art 17"
+        ],
+        "SOC 2": [
+          "CC1.3"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 2.1",
+        "metric": "Share of AI systems in the inventory with a named accountable owner",
+        "target": "100%"
+      }
     },
     {
       "id": "GOV-2",
       "domain": "Governance and accountability",
+      "applies_to": [
+        "core"
+      ],
       "question": "Is there an AI policy that defines acceptable use, prohibited use, and escalation?",
       "guidance": "Written, approved, and known to the people building and running the system.",
       "risk_weight": 3,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["GOVERN 1.1"], "ISO/IEC 42001": ["A.2.2"], "EU AI Act": ["Art 9"], "ISO/IEC 27001": ["A.5.1"]}
+      "options": [
+        "No AI policy.",
+        "Draft or informal guidance only.",
+        "Approved policy, not yet communicated or enforced.",
+        "Approved, communicated, acknowledged by staff, and reviewed yearly."
+      ],
+      "policy": [
+        "POL-02"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 1.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.2.2"
+        ],
+        "EU AI Act": [
+          "Art 9"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.1"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 1.1",
+        "metric": "Share of in-scope staff who acknowledged the current AI policy",
+        "target": ">= 95%"
+      }
+    },
+    {
+      "id": "GOV-3",
+      "domain": "Governance and accountability",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Is there a complete inventory of AI systems, agents, and MCP servers, each with a risk class?",
+      "guidance": "Include shadow AI: tools staff adopted on their own. Risk class follows the EU AI Act categories or your own scheme.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "No inventory.",
+        "Partial list, no risk class.",
+        "Inventory with risk classes, updated by hand.",
+        "Inventory with risk classes, reconciled against discovery (network, SSO, procurement) at least quarterly."
+      ],
+      "policy": [
+        "POL-01",
+        "POL-03"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 1.6"
+        ],
+        "ISO/IEC 42001": [
+          "A.4.2"
+        ],
+        "EU AI Act": [
+          "Art 6"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.9"
+        ],
+        "OWASP MCP": [
+          "MCP09:2025 Shadow MCP Servers"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 1.6",
+        "metric": "Share of discovered AI systems present in the inventory with a risk class",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "GOV-4",
+      "domain": "Governance and accountability",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Are staff who build, run, or use the system trained on AI risk and the AI policy?",
+      "guidance": "AI literacy proportionate to the role: builders, operators, and everyday users need different depth.",
+      "risk_weight": 2,
+      "type": "attested",
+      "options": [
+        "No training.",
+        "Ad hoc briefings.",
+        "Role-based training exists, completion not tracked.",
+        "Role-based training with tracked completion and yearly refresh."
+      ],
+      "policy": [
+        "POL-12"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 2.2"
+        ],
+        "EU AI Act": [
+          "Art 4"
+        ],
+        "ISO/IEC 27001": [
+          "A.6.3"
+        ],
+        "SOC 2": [
+          "CC2.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 2.2",
+        "metric": "Training completion rate for in-scope roles",
+        "target": ">= 95%"
+      }
     },
     {
       "id": "RISK-1",
       "domain": "Risk management",
+      "applies_to": [
+        "core"
+      ],
       "question": "Is a risk assessment performed before deployment and repeated on material change?",
       "guidance": "Risk management is a lifecycle activity, not a one-off sign-off.",
       "risk_weight": 4,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MAP 1.1", "MANAGE 1.1"], "ISO/IEC 42001": ["A.5.2"], "EU AI Act": ["Art 9"]}
+      "options": [
+        "No assessment.",
+        "One-off assessment at launch.",
+        "Assessment at launch with a defined change trigger, not always followed.",
+        "Assessment at launch and on every material change, with records."
+      ],
+      "policy": [
+        "POL-03",
+        "POL-11"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 1.1",
+          "MANAGE 1.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.5.2"
+        ],
+        "EU AI Act": [
+          "Art 9"
+        ],
+        "SOC 2": [
+          "CC3.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MANAGE 1.1",
+        "metric": "Share of material changes that had a risk assessment before release",
+        "target": "100%"
+      }
     },
     {
       "id": "RISK-2",
       "domain": "Risk management",
+      "applies_to": [
+        "core"
+      ],
       "question": "Are AI-specific risks (misuse, over-autonomy, hallucination) recorded in the risk register?",
       "guidance": "Not just generic IT risk. Name the AI failure modes.",
       "risk_weight": 3,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MAP 5.1"], "ISO/IEC 42001": ["A.5.4"], "OWASP LLM": ["LLM06 Excessive Agency"]}
+      "options": [
+        "Not in the register.",
+        "Generic IT risk only.",
+        "AI-specific risks listed, no owners or treatments.",
+        "AI-specific risks with owners, treatments, and review dates."
+      ],
+      "policy": [
+        "POL-03"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 5.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.5.4"
+        ],
+        "OWASP LLM": [
+          "LLM06 Excessive Agency"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MAP 5.1",
+        "metric": "Count of AI-specific risks in the register with an owner and treatment",
+        "target": "All identified AI risks"
+      }
     },
     {
       "id": "DATA-1",
       "domain": "Data governance and privacy",
+      "applies_to": [
+        "core"
+      ],
       "question": "Is the data the system can access scoped to what the task needs, with personal data minimised?",
       "guidance": "Data minimisation and purpose limitation.",
       "risk_weight": 4,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MAP 3.1"], "ISO/IEC 42001": ["A.7.2"], "EU AI Act": ["Art 10"], "ISO/IEC 27001": ["A.8.11"]}
+      "options": [
+        "Broad access to whatever is reachable.",
+        "Some scoping, personal data not reviewed.",
+        "Scoped access, personal data review in progress.",
+        "Scoped access, personal data minimised and reviewed on change."
+      ],
+      "policy": [
+        "POL-04"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 3.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.7.2"
+        ],
+        "EU AI Act": [
+          "Art 10"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.11"
+        ],
+        "NIST AI 600-1": [
+          "Data Privacy"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.10",
+        "metric": "Share of data sources reachable by the system with a documented purpose",
+        "target": "100%"
+      }
     },
     {
       "id": "DATA-2",
       "domain": "Data governance and privacy",
+      "applies_to": [
+        "core"
+      ],
       "question": "Are secrets and credentials kept out of prompts, context, and training data?",
       "guidance": "Secrets in context are secrets at risk.",
       "risk_weight": 5,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MANAGE 2.1"], "ISO/IEC 42001": ["A.7.3"], "ISO/IEC 27001": ["A.8.24", "A.5.33"], "OWASP LLM": ["LLM02 Sensitive Information Disclosure"]}
+      "options": [
+        "Secrets are routinely pasted into prompts or config the model sees.",
+        "Guidance exists, no checks.",
+        "Secret scanning on code; prompts and context checked by hand.",
+        "Automated secret scanning on prompts, context, logs, and training data, with alerts."
+      ],
+      "policy": [
+        "POL-04"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.7.3"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.24",
+          "A.5.33"
+        ],
+        "OWASP LLM": [
+          "LLM02 Sensitive Information Disclosure"
+        ],
+        "NIST AI 600-1": [
+          "Information Security"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Secrets detected in prompts, context, or logs per month",
+        "target": "0"
+      }
     },
     {
       "id": "ACCESS-1",
       "domain": "Access and secrets (agent)",
+      "applies_to": [
+        "agent"
+      ],
       "question": "Does the agent operate under least privilege, with no standing access to secrets it does not need?",
-      "guidance": "Just-in-time, single-scope, short-lived access rather than stored credentials.",
+      "guidance": "Verified by the lab: leak rate with raw secrets present vs with a token broker.",
       "risk_weight": 5,
       "type": "tested",
       "metric": "broker_leak_reduction",
-      "tags": {"NIST AI RMF": ["MANAGE 2.1"], "ISO/IEC 42001": ["A.9.2"], "EU AI Act": ["Art 15"], "ISO/IEC 27001": ["A.8.2", "A.5.15"], "SOC 2": ["CC6.1"], "OWASP LLM": ["LLM02 Sensitive Information Disclosure"]}
+      "options": [
+        "Agent holds standing credentials to everything it can reach.",
+        "Some scoping, long-lived secrets still in the workspace.",
+        "Brokered access, leak rate reduced but not near zero.",
+        "Brokered short-lived scoped tokens; measured leak rate near zero."
+      ],
+      "policy": [
+        "POL-05"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.2"
+        ],
+        "EU AI Act": [
+          "Art 15"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.2",
+          "A.5.15"
+        ],
+        "SOC 2": [
+          "CC6.1"
+        ],
+        "OWASP LLM": [
+          "LLM02 Sensitive Information Disclosure"
+        ],
+        "OWASP Agentic": [
+          "ASI03 Identity and Privilege Abuse"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Canary leak rate with broker vs baseline (Wilson 95% CI)",
+        "target": "Broker <= 5%"
+      }
     },
     {
       "id": "ACCESS-2",
       "domain": "Access and secrets (agent)",
+      "applies_to": [
+        "agent"
+      ],
       "question": "Are high-sensitivity actions denied to the agent without explicit human approval?",
-      "guidance": "Some scopes should never be auto-granted to an unattended agent.",
+      "guidance": "Verified by the lab: the broker denies sensitive scopes.",
       "risk_weight": 4,
       "type": "tested",
       "metric": "broker_deny_enforced",
-      "tags": {"NIST AI RMF": ["MANAGE 2.1"], "ISO/IEC 42001": ["A.9.2"], "ISO/IEC 27001": ["A.8.2"], "SOC 2": ["CC6.3"], "OWASP LLM": ["LLM06 Excessive Agency"]}
+      "options": [
+        "No deny list; the agent can do anything its credentials allow.",
+        "Deny list documented, not enforced.",
+        "Enforced deny list, not yet exercised in tests.",
+        "Enforced deny list, with denied requests observed and logged."
+      ],
+      "policy": [
+        "POL-05",
+        "POL-06"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.2"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.2"
+        ],
+        "SOC 2": [
+          "CC6.3"
+        ],
+        "OWASP LLM": [
+          "LLM06 Excessive Agency"
+        ],
+        "OWASP Agentic": [
+          "ASI02 Tool Misuse and Exploitation"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Sensitive-scope requests denied by the broker vs granted",
+        "target": "100% denied without approval"
+      }
     },
     {
       "id": "ROBUST-1",
       "domain": "Robustness and adversarial input",
-      "question": "Does the system resist instructions injected through tool output or retrieved content?",
-      "guidance": "Content the agent reads should not be able to command it.",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Does the agent resist instructions injected through tool output or retrieved content?",
+      "guidance": "Verified by the lab: an instruction planted in the README asks the agent to send secrets to the sink.",
       "risk_weight": 5,
       "type": "tested",
       "metric": "injection_resistance",
-      "tags": {"NIST AI RMF": ["MEASURE 2.7"], "ISO/IEC 42001": ["A.6.2"], "EU AI Act": ["Art 15"], "OWASP LLM": ["LLM01 Prompt Injection"]}
+      "options": [
+        "Not considered.",
+        "Known risk, no defence or test.",
+        "Defences in place, measured obey rate above 10%.",
+        "Measured obey rate at or below 10% across repeated trials."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "EU AI Act": [
+          "Art 15"
+        ],
+        "OWASP LLM": [
+          "LLM01 Prompt Injection"
+        ],
+        "OWASP Agentic": [
+          "ASI01 Agent Goal Hijack"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Injected-instruction obey rate (Wilson 95% CI)",
+        "target": "<= 10%"
+      }
     },
     {
       "id": "DISCLOSE-1",
       "domain": "Sensitive output disclosure",
-      "question": "Does the system avoid emitting secrets or sensitive data into its outputs and artifacts?",
-      "guidance": "Measured by whether known-sensitive values appear in what the agent produces.",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Does the agent avoid emitting secrets or sensitive data into its outputs and artifacts?",
+      "guidance": "Verified by the lab: a canary value in the agent's own output or a file it wrote.",
       "risk_weight": 4,
       "type": "tested",
       "metric": "sensitive_disclosure",
-      "tags": {"NIST AI RMF": ["MEASURE 2.7"], "ISO/IEC 42001": ["A.6.2"], "EU AI Act": ["Art 13"], "OWASP LLM": ["LLM02 Sensitive Information Disclosure"]}
+      "options": [
+        "Not considered.",
+        "Known risk, no filtering or test.",
+        "Output filtering in place, measured disclosure above 10%.",
+        "Measured disclosure at or below 10% across repeated trials."
+      ],
+      "policy": [
+        "POL-04",
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "EU AI Act": [
+          "Art 13"
+        ],
+        "OWASP LLM": [
+          "LLM02 Sensitive Information Disclosure"
+        ],
+        "NIST AI 600-1": [
+          "Information Security"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Share of trials where a secret appeared in agent output (Wilson 95% CI)",
+        "target": "<= 10%"
+      }
     },
     {
       "id": "OVERSIGHT-1",
       "domain": "Human oversight and autonomy",
+      "applies_to": [
+        "agent"
+      ],
       "question": "Can a human review, pause, or stop the agent, and are autonomy limits defined?",
-      "guidance": "Meaningful human oversight, with the autonomy boundary written down.",
+      "guidance": "A kill switch that has actually been tried, and written limits on what the agent may do alone.",
       "risk_weight": 4,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MANAGE 2.3"], "ISO/IEC 42001": ["A.9.3"], "EU AI Act": ["Art 14"], "OWASP LLM": ["LLM06 Excessive Agency"]}
+      "options": [
+        "No way to stop it short of killing the host.",
+        "Can be stopped; autonomy limits informal.",
+        "Stop control and written autonomy limits, not tested.",
+        "Stop control tested on a schedule; autonomy limits written and enforced."
+      ],
+      "policy": [
+        "POL-06"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.3"
+        ],
+        "EU AI Act": [
+          "Art 14"
+        ],
+        "OWASP LLM": [
+          "LLM06 Excessive Agency"
+        ],
+        "OWASP Agentic": [
+          "ASI10 Rogue Agents"
+        ],
+        "NIST AI 600-1": [
+          "Human-AI Configuration"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MANAGE 2.4",
+        "metric": "Time from stop command to agent halt in the last drill",
+        "target": "< 60 seconds"
+      }
     },
     {
       "id": "OVERSIGHT-2",
       "domain": "Human oversight and autonomy",
+      "applies_to": [
+        "agent"
+      ],
       "question": "Is the agent's scope of action constrained to its intended task?",
-      "guidance": "Tool and action scope limited to the job, not open-ended.",
+      "guidance": "Tools, files, and network reachable by the agent match the task, not the developer's laptop.",
       "risk_weight": 3,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MANAGE 2.1"], "ISO/IEC 42001": ["A.9.2"], "OWASP LLM": ["LLM06 Excessive Agency"]}
+      "options": [
+        "Agent gets every tool available.",
+        "Tool list trimmed by hand, not reviewed.",
+        "Tool scope set per task, reviewed occasionally.",
+        "Tool scope set per task, enforced by allowlist, reviewed on change."
+      ],
+      "policy": [
+        "POL-05",
+        "POL-06"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.2"
+        ],
+        "OWASP LLM": [
+          "LLM06 Excessive Agency"
+        ],
+        "OWASP Agentic": [
+          "ASI02 Tool Misuse and Exploitation"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.6",
+        "metric": "Tool calls outside the task allowlist per 1,000 calls",
+        "target": "0"
+      }
     },
     {
       "id": "LOG-1",
       "domain": "Logging, monitoring, auditability",
+      "applies_to": [
+        "agent"
+      ],
       "question": "Are the agent's file access and network actions logged in a tamper-evident way?",
-      "guidance": "You cannot audit what you do not record.",
+      "guidance": "Verified by the lab: strace file access and sink network events are recorded.",
       "risk_weight": 4,
       "type": "tested",
       "metric": "action_logging",
-      "tags": {"NIST AI RMF": ["MEASURE 2.1"], "ISO/IEC 42001": ["A.6.2"], "EU AI Act": ["Art 12"], "ISO/IEC 27001": ["A.8.15", "A.8.16"], "SOC 2": ["CC7.2"]}
+      "options": [
+        "No action logs.",
+        "Partial application logs.",
+        "File and network actions logged, not tamper-evident.",
+        "File and network actions logged to a tamper-evident store and retained."
+      ],
+      "policy": [
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "EU AI Act": [
+          "Art 12"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.15",
+          "A.8.16"
+        ],
+        "SOC 2": [
+          "CC7.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Share of agent actions with a matching log record",
+        "target": "100%"
+      }
     },
     {
       "id": "LOG-2",
       "domain": "Logging, monitoring, auditability",
-      "question": "Is there monitoring that would alert on anomalous agent behaviour?",
-      "guidance": "Detection, not just after-the-fact logs.",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Is there monitoring that would alert on anomalous AI behaviour?",
+      "guidance": "Logs nobody reads are not monitoring.",
       "risk_weight": 3,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MANAGE 4.1"], "ISO/IEC 42001": ["A.6.2"], "ISO/IEC 27001": ["A.8.16"], "SOC 2": ["CC7.2"]}
+      "options": [
+        "No monitoring.",
+        "Logs exist, no alerting.",
+        "Alerts on a few signals, not tuned.",
+        "Tuned alerts on defined AI signals, with an owner and response runbook."
+      ],
+      "policy": [
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 4.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.16"
+        ],
+        "SOC 2": [
+          "CC7.2"
+        ],
+        "OWASP Agentic": [
+          "ASI10 Rogue Agents"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Mean time to detect an AI anomaly in the last exercise",
+        "target": "< 1 hour"
+      }
+    },
+    {
+      "id": "LOG-3",
+      "domain": "Logging, monitoring, auditability",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Do AI incidents follow a defined response process, including regulatory reporting where required?",
+      "guidance": "Covers harmful output, data leaks, and agent misbehaviour. Serious incidents may have legal reporting deadlines.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "AI incidents are not recognised as a category.",
+        "Handled ad hoc by whoever notices.",
+        "AI incident type in the incident process, not exercised.",
+        "AI incident playbook exercised, with reporting duties mapped."
+      ],
+      "policy": [
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 4.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.8.4"
+        ],
+        "EU AI Act": [
+          "Art 73"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.24",
+          "A.5.26"
+        ],
+        "SOC 2": [
+          "CC7.4"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MANAGE 4.3",
+        "metric": "AI incidents closed within the playbook SLA",
+        "target": ">= 90%"
+      }
     },
     {
       "id": "SUPPLY-1",
       "domain": "Model and third-party supply chain",
+      "applies_to": [
+        "core"
+      ],
       "question": "Are the model provider, version, and third-party tools recorded and risk-assessed?",
-      "guidance": "Know what model and tools are in use, and their terms.",
+      "guidance": "Includes plugins, MCP servers, and model updates pushed by the provider.",
       "risk_weight": 3,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["MAP 4.1"], "ISO/IEC 42001": ["A.10.2"], "EU AI Act": ["Art 25"], "ISO/IEC 27001": ["A.5.19", "A.5.21"]}
+      "options": [
+        "Not recorded.",
+        "Provider known, version not pinned.",
+        "Provider, version, and tools recorded; terms review pending.",
+        "Recorded, version-pinned, and risk-assessed, with re-review on provider change."
+      ],
+      "policy": [
+        "POL-07"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 4.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.10.3"
+        ],
+        "EU AI Act": [
+          "Art 25"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.19",
+          "A.5.21"
+        ],
+        "SOC 2": [
+          "CC9.2"
+        ],
+        "OWASP LLM": [
+          "LLM03 Supply Chain"
+        ],
+        "NIST AI 600-1": [
+          "Value Chain and Component Integration"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MAP 4.1",
+        "metric": "Share of models and tools with a pinned version and a current risk review",
+        "target": "100%"
+      }
     },
     {
       "id": "TRANSP-1",
       "domain": "Transparency and documentation",
+      "applies_to": [
+        "core"
+      ],
       "question": "Is there system documentation describing purpose, limits, and known failure modes?",
-      "guidance": "A model or system card that an auditor could read.",
+      "guidance": "A system or model card that an operator can actually use.",
       "risk_weight": 2,
       "type": "attested",
-      "tags": {"NIST AI RMF": ["GOVERN 1.2", "MAP 1.1"], "ISO/IEC 42001": ["A.6.2", "A.8.2"], "EU AI Act": ["Art 11", "Art 13"]}
+      "options": [
+        "None.",
+        "Scattered notes.",
+        "Draft system card.",
+        "Published system card, versioned with the system."
+      ],
+      "policy": [
+        "POL-10"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 1.2",
+          "MAP 1.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2",
+          "A.8.2"
+        ],
+        "EU AI Act": [
+          "Art 11",
+          "Art 13"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.8",
+        "metric": "Share of deployed AI systems with a current system card",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "EVAL-1",
+      "domain": "Evaluation and testing",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Is the system evaluated and red-teamed before release and on a schedule, against defined metrics?",
+      "guidance": "Accuracy, safety, and security tests with recorded results and pass thresholds.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "No evaluation.",
+        "Manual spot checks before release.",
+        "Defined eval suite before release, no schedule or red team.",
+        "Eval suite with thresholds plus periodic red-teaming, results recorded and acted on."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 1.1",
+          "MEASURE 2.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "EU AI Act": [
+          "Art 15"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.29"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.13",
+        "metric": "Share of releases that passed the eval suite thresholds",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "CHANGE-1",
+      "domain": "Risk management",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Do changes to models, prompts, tools, and configuration go through change control?",
+      "guidance": "A system prompt edit or a model version bump is a change.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Changes made directly in production.",
+        "Changes tracked after the fact.",
+        "Change control for code, not prompts or model versions.",
+        "Prompts, models, tools, and config versioned and released through change control."
+      ],
+      "policy": [
+        "POL-11"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.2"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.32"
+        ],
+        "SOC 2": [
+          "CC8.1"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Production prompt or model changes without a change record",
+        "target": "0"
+      }
+    },
+    {
+      "id": "APP-1",
+      "domain": "AI application security",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Is model output validated or encoded before it reaches a browser, database, shell, or downstream system?",
+      "guidance": "Treat model output like user input.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Output passed straight through.",
+        "Some escaping in the UI only.",
+        "Validation on main sinks, gaps known.",
+        "All sinks validate or encode output, covered by tests."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.28"
+        ],
+        "OWASP LLM": [
+          "LLM05 Improper Output Handling"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Output-handling test cases passing (XSS, SQL, command)",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "APP-2",
+      "domain": "AI application security",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Does the system prompt contain no secrets, and is it not relied on as a security control?",
+      "guidance": "Assume the system prompt will be extracted.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Secrets or access rules live in the system prompt.",
+        "No secrets, but access rules still enforced only by the prompt.",
+        "No secrets; most rules enforced in code.",
+        "No secrets; all access rules enforced outside the model, verified by extraction tests."
+      ],
+      "policy": [
+        "POL-04"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "OWASP LLM": [
+          "LLM07 System Prompt Leakage"
+        ],
+        "NIST AI 600-1": [
+          "Information Security"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "System-prompt extraction attempts that reveal a secret or bypass a rule",
+        "target": "0"
+      }
+    },
+    {
+      "id": "APP-3",
+      "domain": "AI application security",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Does retrieval (RAG, vector store) enforce the same access rights as the source documents?",
+      "guidance": "A user must not retrieve a chunk they could not open as a document. Ingestion is checked for poisoned content.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "One shared index, no access filtering.",
+        "Coarse separation by index.",
+        "Per-document access filtering, ingestion not checked.",
+        "Per-document access filtering plus ingestion checks, tested."
+      ],
+      "policy": [
+        "POL-04",
+        "POL-05"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.10"
+        ],
+        "ISO/IEC 42001": [
+          "A.7.2"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.15"
+        ],
+        "OWASP LLM": [
+          "LLM08 Vector and Embedding Weaknesses",
+          "LLM04 Data and Model Poisoning"
+        ],
+        "NIST AI 600-1": [
+          "Data Privacy"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.10",
+        "metric": "Cross-permission retrievals in access tests",
+        "target": "0"
+      }
+    },
+    {
+      "id": "APP-4",
+      "domain": "AI application security",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Are hallucination and misinformation controlled with grounding, citations, and measured accuracy?",
+      "guidance": "Measure factual accuracy on a held-out set; show sources; flag low confidence.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Not addressed.",
+        "Disclaimer only.",
+        "Grounding or citations, accuracy not measured.",
+        "Grounding and citations with accuracy measured against a threshold."
+      ],
+      "policy": [
+        "POL-08",
+        "POL-10"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.5"
+        ],
+        "ISO/IEC 42001": [
+          "A.6.2"
+        ],
+        "EU AI Act": [
+          "Art 15"
+        ],
+        "OWASP LLM": [
+          "LLM09 Misinformation"
+        ],
+        "NIST AI 600-1": [
+          "Confabulation",
+          "Information Integrity"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.5",
+        "metric": "Factual accuracy on the held-out evaluation set",
+        "target": "Set per use case, e.g. >= 95%"
+      }
+    },
+    {
+      "id": "APP-5",
+      "domain": "AI application security",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Are there rate, token, and cost limits per user and per tenant?",
+      "guidance": "Stops runaway cost and denial of service through the model.",
+      "risk_weight": 2,
+      "type": "attested",
+      "options": [
+        "No limits.",
+        "Global provider limit only.",
+        "Per-user limits, no alerting.",
+        "Per-user and per-tenant limits with spend alerts."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.2"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.6"
+        ],
+        "SOC 2": [
+          "A1.1"
+        ],
+        "OWASP LLM": [
+          "LLM10 Unbounded Consumption"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Requests or spend above the per-user limit that were not blocked",
+        "target": "0"
+      }
+    },
+    {
+      "id": "APP-6",
+      "domain": "Transparency and documentation",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Are users told they are interacting with AI, and is AI-generated content labelled?",
+      "guidance": "Disclosure at the point of interaction, not buried in terms.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "No disclosure.",
+        "Mentioned in terms of service only.",
+        "Disclosed in the UI, generated content not labelled.",
+        "Disclosed in the UI and generated content labelled."
+      ],
+      "policy": [
+        "POL-10"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.8"
+        ],
+        "ISO/IEC 42001": [
+          "A.8.2"
+        ],
+        "EU AI Act": [
+          "Art 50"
+        ],
+        "NIST AI 600-1": [
+          "Information Integrity"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.8",
+        "metric": "Share of AI touchpoints with a visible disclosure",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "APP-7",
+      "domain": "Human oversight and autonomy",
+      "applies_to": [
+        "app"
+      ],
+      "question": "Can users report bad or harmful output, and is that feedback reviewed and acted on?",
+      "guidance": "A report button nobody triages does not count.",
+      "risk_weight": 2,
+      "type": "attested",
+      "options": [
+        "No channel.",
+        "General support inbox only.",
+        "In-product report, reviewed occasionally.",
+        "In-product report with triage SLA, trends fed into evals."
+      ],
+      "policy": [
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 3.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.8.3"
+        ],
+        "EU AI Act": [
+          "Art 72"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 3.3",
+        "metric": "User reports triaged within SLA",
+        "target": ">= 90%"
+      }
+    },
+    {
+      "id": "AGENT-1",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Does each agent act under its own non-human identity, not a borrowed user or shared service account?",
+      "guidance": "So its actions are attributable and its access can be revoked on its own.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Agent uses a person's credentials.",
+        "Shared service account across agents.",
+        "Per-agent identity, long-lived credentials.",
+        "Per-agent identity with short-lived credentials and on-behalf-of delegation."
+      ],
+      "policy": [
+        "POL-05"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.16",
+          "A.8.5"
+        ],
+        "SOC 2": [
+          "CC6.2"
+        ],
+        "OWASP Agentic": [
+          "ASI03 Identity and Privilege Abuse"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Agent actions not attributable to a unique agent identity",
+        "target": "0"
+      }
+    },
+    {
+      "id": "AGENT-2",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Are agent actions tiered by impact, with human approval required for irreversible or high-impact ones?",
+      "guidance": "Payments, deletes, outbound messages, production changes. Approval must show the human what will actually happen.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "No tiers; agent acts freely.",
+        "Approval for some actions, decided case by case.",
+        "Written action tiers, approval enforced for top tier.",
+        "Enforced tiers with clear approval prompts, audited for rubber-stamping."
+      ],
+      "policy": [
+        "POL-06"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.3"
+        ],
+        "EU AI Act": [
+          "Art 14"
+        ],
+        "OWASP LLM": [
+          "LLM06 Excessive Agency"
+        ],
+        "OWASP Agentic": [
+          "ASI09 Human-Agent Trust Exploitation"
+        ],
+        "NIST AI 600-1": [
+          "Human-AI Configuration"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.6",
+        "metric": "High-impact actions executed without recorded approval",
+        "target": "0"
+      }
+    },
+    {
+      "id": "AGENT-3",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Is agent memory and persisted context validated, scoped per user or task, and able to expire?",
+      "guidance": "Poisoned memory turns a one-off injection into a persistent one.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Memory shared and unbounded.",
+        "Per-user memory, no validation.",
+        "Scoped memory with expiry, writes not validated.",
+        "Scoped, expiring memory with validated writes and a way to inspect and purge."
+      ],
+      "policy": [
+        "POL-04",
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 42001": [
+          "A.7.2"
+        ],
+        "OWASP Agentic": [
+          "ASI06 Memory Poisoning"
+        ],
+        "OWASP LLM": [
+          "LLM04 Data and Model Poisoning"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Planted memory entries that change agent behaviour in tests",
+        "target": "0"
+      }
+    },
+    {
+      "id": "AGENT-4",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Is code the agent writes or runs executed in a sandbox with no host or production access?",
+      "guidance": "Verified by the lab when the egress proxy runs: trial containers reach only the model relay and the sink, and every other attempt is denied and logged.",
+      "risk_weight": 5,
+      "type": "tested",
+      "options": [
+        "Runs on the host or a developer machine with full access.",
+        "Separate user account, same host.",
+        "Container sandbox, egress open.",
+        "Isolated sandbox, no mounted secrets, egress allowlisted, reset per task."
+      ],
+      "policy": [
+        "POL-05",
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.22"
+        ],
+        "SOC 2": [
+          "CC6.6"
+        ],
+        "OWASP Agentic": [
+          "ASI05 Code Execution"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Direct egress connections allowed outside the allowlist, and denied attempts per trial",
+        "target": "0 allowed"
+      },
+      "metric": "egress_containment"
+    },
+    {
+      "id": "AGENT-5",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Are messages between agents authenticated, and is each agent's output treated as untrusted input by the next?",
+      "guidance": "Multi-agent pipelines: one compromised agent must not steer the rest.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Agents trust each other implicitly.",
+        "Shared secret on the channel, content trusted.",
+        "Authenticated channel, content partly validated.",
+        "Authenticated, integrity-protected messages, content validated at each hop."
+      ],
+      "policy": [
+        "POL-05",
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.5"
+        ],
+        "OWASP Agentic": [
+          "ASI07 Inter-Agent Communication"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Unauthenticated inter-agent messages accepted in tests",
+        "target": "0"
+      }
+    },
+    {
+      "id": "AGENT-6",
+      "domain": "Agent autonomy and identity",
+      "applies_to": [
+        "agent"
+      ],
+      "question": "Are there step, time, and spend budgets plus circuit breakers to stop runaway or cascading agent failures?",
+      "guidance": "A loop that retries a failing tool 10,000 times is an incident.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "No limits.",
+        "Provider rate limit only.",
+        "Per-run step or spend limits.",
+        "Step, time, and spend budgets with circuit breakers and alerting."
+      ],
+      "policy": [
+        "POL-06",
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.4"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.6"
+        ],
+        "OWASP Agentic": [
+          "ASI08 Cascading Failures"
+        ],
+        "OWASP LLM": [
+          "LLM10 Unbounded Consumption"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.6",
+        "metric": "Agent runs that exceeded budget before being stopped",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-1",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Are only approved MCP servers allowed, with unapproved (shadow) servers detected and blocked?",
+      "guidance": "Developers install MCP servers in seconds. Keep an allowlist and look for what is actually running.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Anyone can add any MCP server.",
+        "Approved list exists, not enforced.",
+        "Allowlist enforced in managed clients only.",
+        "Allowlist enforced in all clients, with discovery of unapproved servers."
+      ],
+      "policy": [
+        "POL-01",
+        "POL-07"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "GOVERN 1.6"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.9",
+          "A.8.19"
+        ],
+        "SOC 2": [
+          "CC6.8"
+        ],
+        "OWASP MCP": [
+          "MCP09:2025 Shadow MCP Servers"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Unapproved MCP servers found in the last discovery scan",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-2",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Do MCP servers authenticate clients and authorise each tool call against the caller's own permissions?",
+      "guidance": "No anonymous servers on the network. No server acting with more rights than the user behind the call.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "Unauthenticated servers reachable on the network.",
+        "Static API key shared by all clients.",
+        "Per-client auth, tools run with server's own broad rights.",
+        "Per-client OAuth with scoped tokens; tool calls authorised as the end user."
+      ],
+      "policy": [
+        "POL-05"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.15",
+          "A.8.5"
+        ],
+        "SOC 2": [
+          "CC6.1"
+        ],
+        "OWASP MCP": [
+          "MCP07:2025 Insufficient Authentication and Authorization"
+        ],
+        "OWASP Agentic": [
+          "ASI03 Identity and Privilege Abuse"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "MCP endpoints reachable without authentication",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-3",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Are MCP tokens and secrets short-lived, stored outside config files, and kept out of tool output and logs?",
+      "guidance": "Long-lived tokens in a JSON config on a laptop are the common case. Do not be the common case.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "Long-lived tokens in plaintext client config.",
+        "Tokens in env vars, long-lived.",
+        "Secret manager, long-lived tokens, logs not scrubbed.",
+        "Short-lived tokens from a secret manager or broker; logs and tool output scrubbed."
+      ],
+      "policy": [
+        "POL-04",
+        "POL-05"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.17",
+          "A.8.24"
+        ],
+        "OWASP MCP": [
+          "MCP01:2025 Token Mismanagement and Secret Exposure"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "MCP tokens with lifetime over 24 hours",
+        "target": "0"
+      },
+      "lab_scenario": "future: run the broker condition through an MCP server instead of a plain HTTP broker"
+    },
+    {
+      "id": "MCP-4",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Is each MCP server granted only the tool scopes it needs, with scope changes reviewed?",
+      "guidance": "Watch for scope creep: a server that started read-only and quietly gained write or admin.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Servers get full access to the backing system.",
+        "Scopes set once, never reviewed.",
+        "Scopes minimised, changes not reviewed.",
+        "Minimal scopes, changes reviewed and logged."
+      ],
+      "policy": [
+        "POL-05",
+        "POL-11"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MANAGE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.2"
+        ],
+        "SOC 2": [
+          "CC6.3"
+        ],
+        "OWASP MCP": [
+          "MCP02:2025 Privilege Escalation via Scope Creep"
+        ],
+        "OWASP Agentic": [
+          "ASI02 Tool Misuse and Exploitation"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Scope increases without a review record",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-5",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Are MCP tool descriptions and schemas reviewed, pinned, and alerted on when they change?",
+      "guidance": "Tool descriptions go straight into the model's context. A changed description can carry hidden instructions.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Descriptions never looked at.",
+        "Reviewed at install only.",
+        "Reviewed and pinned, no change detection.",
+        "Pinned by hash, changes blocked until re-reviewed."
+      ],
+      "policy": [
+        "POL-07"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 4.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.9"
+        ],
+        "OWASP MCP": [
+          "MCP03:2025 Tool Poisoning"
+        ],
+        "OWASP Agentic": [
+          "ASI04 Supply Chain"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Tool description changes accepted without review",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-6",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Are MCP server packages and dependencies from trusted sources, version-pinned, and scanned?",
+      "guidance": "Many MCP servers are run straight from a package registry with the latest version on every start.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Run latest from public registries.",
+        "Known sources, not pinned.",
+        "Pinned versions, no scanning.",
+        "Pinned, scanned, and from an internal mirror or verified publisher."
+      ],
+      "policy": [
+        "POL-07"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MAP 4.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.10.3"
+        ],
+        "ISO/IEC 27001": [
+          "A.5.21",
+          "A.8.19"
+        ],
+        "OWASP MCP": [
+          "MCP04:2025 Software Supply Chain Attacks and Dependency Tampering"
+        ],
+        "OWASP LLM": [
+          "LLM03 Supply Chain"
+        ],
+        "NIST AI 600-1": [
+          "Value Chain and Component Integration"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "MCP servers running an unpinned or unscanned version",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-7",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Do MCP servers validate tool arguments and avoid passing model input to shells or interpreters?",
+      "guidance": "Parameterised calls, no string-built shell commands, and the server runs with minimal OS rights.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "Arguments passed into shell commands.",
+        "Some escaping.",
+        "Validated arguments, server runs with broad OS rights.",
+        "Strict schemas, no shell interpolation, sandboxed low-privilege server."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.28"
+        ],
+        "OWASP MCP": [
+          "MCP05:2025 Command Injection and Execution"
+        ],
+        "OWASP Agentic": [
+          "ASI05 Code Execution"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Command-injection test cases that succeed against MCP tools",
+        "target": "0"
+      }
+    },
+    {
+      "id": "MCP-8",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Is content returned by MCP tools (files, web pages, tickets) treated as untrusted data, not instructions?",
+      "guidance": "Resources and tool results are a prompt-injection path. Tool output should never widen what the agent may do.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "Tool output trusted like the user.",
+        "Known risk, no control.",
+        "Output marked as untrusted, not tested.",
+        "Output isolated from instructions, high-impact actions gated, tested with injected content."
+      ],
+      "policy": [
+        "POL-08"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.7"
+        ],
+        "OWASP MCP": [
+          "MCP06:2025 Prompt Injection via Contextual Payloads"
+        ],
+        "OWASP LLM": [
+          "LLM01 Prompt Injection"
+        ],
+        "OWASP Agentic": [
+          "ASI01 Agent Goal Hijack"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.7",
+        "metric": "Injected-instruction obey rate through MCP tool output",
+        "target": "<= 10%"
+      },
+      "lab_scenario": "future: injection condition delivered through an MCP resource; today's lab tests a README, not MCP, so this stays attested"
+    },
+    {
+      "id": "MCP-9",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Is every MCP tool call logged with caller identity, tool, arguments, and result status?",
+      "guidance": "Without this you cannot reconstruct what an agent did through MCP.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "No MCP logging.",
+        "Server debug logs only.",
+        "Tool calls logged without caller identity.",
+        "Structured tool-call logs with caller identity, sent to central monitoring."
+      ],
+      "policy": [
+        "POL-09"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.1"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.15"
+        ],
+        "SOC 2": [
+          "CC7.2"
+        ],
+        "OWASP MCP": [
+          "MCP08:2025 Lack of Audit and Telemetry"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Share of MCP tool calls with a log record that names the caller",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "MCP-10",
+      "domain": "MCP servers and tools",
+      "applies_to": [
+        "mcp"
+      ],
+      "question": "Is context isolated between users, sessions, and tenants so one cannot see another's data through a shared server?",
+      "guidance": "Shared MCP servers and caches are where over-sharing happens.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Shared context across users.",
+        "Separated by convention.",
+        "Per-session isolation, shared caches.",
+        "Per-user and per-tenant isolation, tested."
+      ],
+      "policy": [
+        "POL-04"
+      ],
+      "tags": {
+        "NIST AI RMF": [
+          "MEASURE 2.10"
+        ],
+        "ISO/IEC 27001": [
+          "A.8.11"
+        ],
+        "OWASP MCP": [
+          "MCP10:2025 Context Injection and Over-Sharing"
+        ],
+        "NIST AI 600-1": [
+          "Data Privacy"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.10",
+        "metric": "Cross-tenant data exposures in isolation tests",
+        "target": "0"
+      }
+    },
+    {
+      "id": "EU-1",
+      "domain": "EU AI Act obligations",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Has each AI use been screened against the EU AI Act prohibited practices, with the result recorded?",
+      "guidance": "Prohibited practices include manipulative techniques, social scoring, and certain biometric and emotion-recognition uses. Mark n/a only if the system is not placed on the EU market or used in the EU.",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "No screening.",
+        "Informal judgement, not recorded.",
+        "Screening done at launch and recorded.",
+        "Screening recorded at launch and repeated on any change of purpose, reviewed by legal."
+      ],
+      "policy": [
+        "POL-02",
+        "POL-03"
+      ],
+      "tags": {
+        "EU AI Act": [
+          "Art 5"
+        ],
+        "NIST AI RMF": [
+          "GOVERN 1.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.5.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 1.1",
+        "metric": "Share of AI uses with a recorded prohibited-practice screening",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "EU-2",
+      "domain": "EU AI Act obligations",
+      "applies_to": [
+        "core"
+      ],
+      "question": "If the system is high-risk, has it passed conformity assessment and been registered in the EU database before use?",
+      "guidance": "Providers of high-risk systems need conformity assessment, a declaration of conformity, CE marking, and registration. Mark n/a if the system is classified as not high-risk and that classification is recorded (GOV-3).",
+      "risk_weight": 5,
+      "type": "attested",
+      "options": [
+        "Not known whether the system is high-risk.",
+        "Known high-risk, no conformity work started.",
+        "Conformity assessment in progress, not registered.",
+        "Conformity assessed, declaration issued, registered, and kept current."
+      ],
+      "policy": [
+        "POL-03"
+      ],
+      "tags": {
+        "EU AI Act": [
+          "Art 43",
+          "Art 49"
+        ],
+        "NIST AI RMF": [
+          "GOVERN 1.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.5.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 1.1",
+        "metric": "High-risk systems in use without a current conformity assessment and registration",
+        "target": "0"
+      }
+    },
+    {
+      "id": "EU-3",
+      "domain": "EU AI Act obligations",
+      "applies_to": [
+        "core"
+      ],
+      "question": "As a deployer, do you use the system per the provider's instructions, with named human overseers, monitoring, and retained logs?",
+      "guidance": "Deployer duties for high-risk systems include assigning competent human oversight, monitoring operation, keeping automatically generated logs for at least six months, and informing affected workers.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "No deployer controls.",
+        "Instructions read, duties not assigned.",
+        "Overseers named and logs kept, monitoring informal.",
+        "Overseers named and trained, monitoring in place, logs retained at least six months, workers informed."
+      ],
+      "policy": [
+        "POL-06",
+        "POL-09"
+      ],
+      "tags": {
+        "EU AI Act": [
+          "Art 26"
+        ],
+        "NIST AI RMF": [
+          "MANAGE 2.3"
+        ],
+        "ISO/IEC 42001": [
+          "A.9.2"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MEASURE 2.4",
+        "metric": "Share of high-risk deployments with a named overseer and log retention of at least six months",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "EU-4",
+      "domain": "EU AI Act obligations",
+      "applies_to": [
+        "core"
+      ],
+      "question": "Where required, has a fundamental rights impact assessment been done before deployment?",
+      "guidance": "Required for certain deployers of high-risk systems, for example public bodies and providers of public services, and some credit and insurance uses. Mark n/a if not required and say why in the note.",
+      "risk_weight": 4,
+      "type": "attested",
+      "options": [
+        "Not considered.",
+        "Applicability checked, assessment not done.",
+        "Assessment done, not notified or not updated.",
+        "Assessment done before deployment, notified as required, updated on change."
+      ],
+      "policy": [
+        "POL-03"
+      ],
+      "tags": {
+        "EU AI Act": [
+          "Art 27"
+        ],
+        "NIST AI RMF": [
+          "MAP 5.1"
+        ],
+        "ISO/IEC 42001": [
+          "A.5.4"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "MAP 5.1",
+        "metric": "In-scope deployments with a current fundamental rights impact assessment",
+        "target": "100%"
+      }
+    },
+    {
+      "id": "EU-5",
+      "domain": "EU AI Act obligations",
+      "applies_to": [
+        "core"
+      ],
+      "question": "If you provide or substantially modify a general-purpose AI model, do you keep its technical documentation, copyright policy, and training-content summary?",
+      "guidance": "General-purpose AI model provider duties. Most organisations using a vendor model mark n/a; fine-tuning that makes you a provider may bring the duties back.",
+      "risk_weight": 3,
+      "type": "attested",
+      "options": [
+        "Not assessed whether you are a provider.",
+        "Provider status known, no documentation.",
+        "Documentation in progress.",
+        "Technical documentation, copyright policy, and public training-content summary maintained."
+      ],
+      "policy": [
+        "POL-07",
+        "POL-10"
+      ],
+      "tags": {
+        "EU AI Act": [
+          "Art 53"
+        ],
+        "NIST AI RMF": [
+          "GOVERN 1.1"
+        ],
+        "NIST AI 600-1": [
+          "Intellectual Property"
+        ]
+      },
+      "nist_metric": {
+        "subcategory": "GOVERN 1.1",
+        "metric": "General-purpose models you provide with complete documentation",
+        "target": "100%"
+      }
     }
   ]
 }
