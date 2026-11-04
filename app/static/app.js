@@ -88,6 +88,7 @@ function setView(v) {
   if (v === "dash") refresh();
   if (v === "assess") renderAssessment();
   if (v === "tags") { refresh().then(renderHits); }
+  if (v === "bench") renderBench();
   window.scrollTo({ top: 0, behavior: REDUCE ? "auto" : "smooth" });
 }
 
@@ -397,6 +398,45 @@ $("#submitBtn").addEventListener("click", async () => {
   }
   state.cur.status = "submitted"; startResp(); toast("Submitted. Thank you.");
 });
+
+/* ---------------- benchmark ---------------- */
+async function renderBench() {
+  const r = await api(`/api/assessments/${state.cur.id}/benchmark`, {});
+  if (!r.ok) { $("#benchRows").innerHTML = `<p class="muted">${esc(r.data.error || "Benchmark not available.")}</p>`; return; }
+  const d = r.data, s = d.summary, m = d.meta || {};
+  $("#benchMeta").innerHTML = `${esc(m.method || "")} As of ${esc(m.as_of || "")}. ${s.covered} controls covered, ${s.compared} compared.`;
+  $("#bgVendorName").textContent = state.cur.org;
+  const g = (el, v) => { el.style.setProperty("--v", v == null ? 0 : Math.round((v / 3) * 100)); el.querySelector("span").textContent = v == null ? "-" : v.toFixed(1); };
+  g($("#bgVendor"), s.vendor_avg); g($("#bgBench"), s.bench_avg);
+  $("#benchCounts").innerHTML = [["g", s.behind, "behind"], ["n", s.level, "level"], ["v", s.ahead, "ahead"], ["n", s.unanswered, "unanswered"]]
+    .map(([c, n, l]) => `<div class="bc"><span class="badge ${c}">${n}</span> ${l}</div>`).join("");
+  $("#benchTowers").innerHTML = `<div class="tower-floor">` + Object.entries(d.domains).map(([n, x]) => `
+    <div class="tower pair" title="${esc(n)}: vendor ${x.vendor_avg}, Anthropic ${x.bench_avg} (${x.n} controls)">
+      <div class="pair-cols">
+        ${[["v", x.vendor_avg], ["r", x.bench_avg]].map(([k, val]) => `<div class="tw-col ${k}" data-h="${Math.max(3, Math.round((val / 3) * 100))}">
+          <div class="tw-bar"><i class="face front"></i><i class="face side"></i></div>
+          <div class="tw-cap"><span class="tw-val">${val.toFixed(1)}</span><i class="top"></i></div></div>`).join("")}
+      </div>
+      <div class="tw-name">${esc(n)}</div></div>`).join("") + `</div>`;
+  requestAnimationFrame(() => requestAnimationFrame(() => $$("#benchTowers .tw-col[data-h]").forEach((c, i) => {
+    const h = c.dataset.h / 100, bar = c.querySelector(".tw-bar"), cap = c.querySelector(".tw-cap"), dl = REDUCE ? "0s" : `${i * 30}ms`;
+    bar.style.transitionDelay = cap.style.transitionDelay = dl; bar.style.transform = `scaleY(${h})`; cap.style.transform = `translateY(${-200 * h}px)`;
+  })));
+  $("#benchRows").innerHTML = d.rows.map((x) => {
+    const gap = x.gap == null ? `<span class="badge n">${x.na ? "n/a" : "no answer"}</span>`
+      : `<span class="badge ${x.gap < 0 ? "g" : x.gap > 0 ? "v" : "n"}">${x.gap > 0 ? "+" : ""}${x.gap}</span>`;
+    return `<div class="brow">
+      <div class="b-q"><span class="q-id">${x.id}</span><div><b>${esc(x.question)}</b><div class="muted small">${esc(x.domain)}</div></div>${gap}</div>
+      <div class="b-cmp">
+        <div class="b-side"><div class="b-lab">${esc(state.cur.org)} <span class="lvl">${x.vendor == null ? "-" : x.vendor + "/3"}</span>${x.verified ? ` <span class="badge v">lab verified</span>` : ""}</div>
+          <div class="small">${esc(x.vendor_note || "No answer yet")}</div></div>
+        <div class="b-side ref"><div class="b-lab">Anthropic <span class="lvl">${x.bench}/3</span></div>
+          <div class="small">${esc(x.bench_evidence)}</div>
+          <div class="b-src">${x.bench_sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>`).join("")}</div></div>
+      </div></div>`;
+  }).join("") || `<p class="muted">No benchmark coverage for the controls in this assessment's scope.</p>`;
+  bindTilt();
+}
 
 /* ---------------- standards map ---------------- */
 function renderTagsView() {

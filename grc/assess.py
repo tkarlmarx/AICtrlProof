@@ -298,6 +298,65 @@ def verified_controls(results_dir=RESULTS):
             for r in out["questions"] if r["type"] == "tested"]
 
 
+# ----- reference benchmark (public evidence from a reference organisation) -----
+
+def load_benchmark(name="anthropic"):
+    """grc/benchmarks/<name>.json: {"meta": {...}, "controls": {qid: {level, evidence, sources}}}."""
+    return load(os.path.join(HERE, "benchmarks", f"{name}.json"))
+
+
+def benchmark_compare(scored, bench):
+    """Compare a scored assessment (output of compute) with a benchmark.
+
+    Only questions that are in the assessment's scope AND covered by the
+    benchmark are compared. Maturity comes from compute (so lab-verified
+    maturity is used where it applies). Not-applicable answers are listed but
+    not compared. Returns rows, a summary, and per-domain averages."""
+    ctrls = (bench or {}).get("controls", {})
+    srcs = {s["id"]: s for s in (bench or {}).get("meta", {}).get("sources", [])}
+    na = {n["id"] for n in scored.get("not_applicable", [])}
+    rows = []
+    for r in scored["questions"]:
+        b = ctrls.get(r["id"])
+        if not b:
+            continue
+        lvl = int(b["level"])
+        rows.append({"id": r["id"], "domain": r["domain"], "question": r["question"],
+                     "vendor": r["maturity"] if r["answered"] else None,
+                     "vendor_note": r["evidence"] if r["answered"] else "",
+                     "verified": r["verified"], "bench": lvl, "bench_evidence": b.get("evidence", ""),
+                     "bench_sources": [srcs[s] for s in b.get("sources", []) if s in srcs],
+                     "gap": (r["maturity"] - lvl) if r["answered"] else None})
+    for qid in sorted(na & set(ctrls)):
+        b = ctrls[qid]
+        rows.append({"id": qid, "domain": next((q["domain"] for q in load_questions()["questions"]
+                                                if q["id"] == qid), ""),
+                     "question": next((q["question"] for q in load_questions()["questions"]
+                                       if q["id"] == qid), ""),
+                     "vendor": None, "vendor_note": "marked not applicable", "verified": False,
+                     "na": True, "bench": int(b["level"]), "bench_evidence": b.get("evidence", ""),
+                     "bench_sources": [srcs[s] for s in b.get("sources", []) if s in srcs], "gap": None})
+    cmp_rows = [x for x in rows if x["gap"] is not None]
+    avg = lambda xs: round(sum(xs) / len(xs), 2) if xs else None
+    domains = {}
+    for x in cmp_rows:
+        d = domains.setdefault(x["domain"], {"vendor": [], "bench": []})
+        d["vendor"].append(x["vendor"]); d["bench"].append(x["bench"])
+    return {
+        "meta": (bench or {}).get("meta", {}),
+        "rows": sorted(rows, key=lambda x: (x["gap"] is None, x["gap"] if x["gap"] is not None else 0)),
+        "summary": {"covered": len(rows), "compared": len(cmp_rows),
+                    "unanswered": sum(1 for x in rows if x["vendor"] is None and not x.get("na")),
+                    "vendor_avg": avg([x["vendor"] for x in cmp_rows]),
+                    "bench_avg": avg([x["bench"] for x in cmp_rows]),
+                    "behind": sum(1 for x in cmp_rows if x["gap"] < 0),
+                    "level": sum(1 for x in cmp_rows if x["gap"] == 0),
+                    "ahead": sum(1 for x in cmp_rows if x["gap"] > 0)},
+        "domains": {k: {"vendor_avg": avg(v["vendor"]), "bench_avg": avg(v["bench"]), "n": len(v["vendor"])}
+                    for k, v in sorted(domains.items())},
+    }
+
+
 # ----- HTML report (CLI) -----
 
 def render(d, results_dir=RESULTS):

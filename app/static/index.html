@@ -43,6 +43,7 @@
     <nav class="tabs team-only" role="tablist">
       <button class="tab active" data-view="list" role="tab">Assessments</button>
       <button class="tab" data-view="dash" role="tab">Dashboard</button>
+      <button class="tab" data-view="bench" role="tab">Benchmark</button>
       <button class="tab" data-view="assess" role="tab">Questions</button>
       <button class="tab" data-view="tags" role="tab">Standards map</button>
     </nav>
@@ -126,6 +127,30 @@
       <div class="card slab3d">
         <h3>NIST AI RMF metrics</h3>
         <div id="nist" class="nist nist-wide"></div>
+      </div>
+    </section>
+
+    <!-- Benchmark -->
+    <section id="view-bench" class="view" hidden>
+      <div class="card slab3d bench-head">
+        <div>
+          <h2>Benchmark against Anthropic</h2>
+          <p class="muted" id="benchMeta"></p>
+        </div>
+        <div class="bench-duo">
+          <div class="duo"><div class="mini-gauge big" id="bgVendor"><span>-</span></div><b id="bgVendorName">Vendor</b><span class="muted small">avg maturity</span></div>
+          <div class="duo"><div class="mini-gauge big ref" id="bgBench"><span>-</span></div><b>Anthropic</b><span class="muted small">public evidence</span></div>
+        </div>
+        <div class="bench-counts" id="benchCounts"></div>
+      </div>
+      <div class="card slab3d">
+        <h3>Maturity by domain, vendor vs benchmark</h3>
+        <div id="benchTowers" class="towers"></div>
+        <div class="legend"><span class="sw v"></span> Vendor <span class="sw r"></span> Anthropic (public evidence)</div>
+      </div>
+      <div class="card slab3d">
+        <h3>Control by control</h3>
+        <div id="benchRows" class="bench-rows"></div>
       </div>
     </section>
 

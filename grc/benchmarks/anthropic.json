@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "name": "Anthropic",
+    "role": "Reference AI provider (frontier model developer)",
+    "as_of": "2026-11-04",
+    "method": "Levels are inferred only from Anthropic's own public documents. This is an indicative benchmark of what a mature AI provider publicly evidences, not an audit or certification of Anthropic.",
+    "sources": [
+      {
+        "id": "aup",
+        "title": "Anthropic Usage Policy",
+        "url": "https://www.anthropic.com/legal/aup",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "rsp",
+        "title": "Responsible Scaling Policy (v3.4)",
+        "url": "https://www.anthropic.com/responsible-scaling-policy",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "rsp-v3",
+        "title": "Anthropic's Responsible Scaling Policy: Version 3.0",
+        "url": "https://www.anthropic.com/news/responsible-scaling-policy-v3",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "iso42001",
+        "title": "Anthropic achieves ISO 42001 certification for responsible AI",
+        "url": "https://www.anthropic.com/news/anthropic-achieves-iso-42001-certification-for-responsible-ai",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "certs",
+        "title": "What certifications has Anthropic obtained? (Privacy Center)",
+        "url": "https://privacy.claude.com/en/articles/10015870-what-certifications-has-anthropic-obtained",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "transparency",
+        "title": "Anthropic Transparency Hub: Model Report",
+        "url": "https://www.anthropic.com/transparency",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "commitments",
+        "title": "Transparency Hub: Voluntary Commitments",
+        "url": "https://www.anthropic.com/transparency/voluntary-commitments",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "trust-reporting",
+        "title": "Transparency Hub: System Trust and Reporting",
+        "url": "https://www.anthropic.com/transparency/system-trust-reporting",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "system-cards",
+        "title": "Anthropic system cards index",
+        "url": "https://www.anthropic.com/system-cards",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "constitution",
+        "title": "Claude's Constitution",
+        "url": "https://www.anthropic.com/constitution",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "ltbt",
+        "title": "The Long-Term Benefit Trust",
+        "url": "https://www.anthropic.com/news/the-long-term-benefit-trust",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "frontier-security",
+        "title": "Frontier Model Security",
+        "url": "https://www.anthropic.com/news/frontier-model-security",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "commercial-terms",
+        "title": "Commercial Terms of Service",
+        "url": "https://www.anthropic.com/legal/commercial-terms",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "retention",
+        "title": "How long do you store my data? (Privacy Center)",
+        "url": "https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "disclosure",
+        "title": "Responsible Disclosure Policy",
+        "url": "https://www.anthropic.com/responsible-disclosure-policy",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "cc-security",
+        "title": "Claude Code docs: Security",
+        "url": "https://code.claude.com/docs/en/security",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "cc-sandbox",
+        "title": "Claude Code docs: Sandboxing",
+        "url": "https://code.claude.com/docs/en/sandboxing",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "cc-permissions",
+        "title": "Claude Code docs: Configure permissions",
+        "url": "https://code.claude.com/docs/en/permissions",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "cc-managed-mcp",
+        "title": "Claude Code docs: Control MCP server access for your organization",
+        "url": "https://code.claude.com/docs/en/managed-mcp",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "cc-monitoring",
+        "title": "Claude Code docs: Monitoring usage (OpenTelemetry)",
+        "url": "https://code.claude.com/docs/en/monitoring-usage",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "rate-limits",
+        "title": "Claude API docs: Rate limits",
+        "url": "https://platform.claude.com/docs/en/api/rate-limits",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "threat-intel",
+        "title": "Countering misuse of AI: September 2026",
+        "url": "https://www.anthropic.com/threat-intelligence-report-september-2026",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "pi-research",
+        "title": "Mitigating prompt injections in browser use",
+        "url": "https://www.anthropic.com/research/prompt-injection-defenses",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "pi-guidance",
+        "title": "Claude API docs: Mitigate jailbreaks and prompt injections",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "checked": "2026-11-04"
+      },
+      {
+        "id": "eu-code",
+        "title": "Anthropic to sign the EU Code of Practice",
+        "url": "https://www.anthropic.com/news/eu-code-practice",
+        "checked": "2026-11-04"
+      }
+    ]
+  },
+  "controls": {
+    "GOV-1": {
+      "level": 2,
+      "evidence": "Accredited ISO/IEC 42001:2023 certification (Schellman) covers an AI management system with established roles and oversight; an independent Long-Term Benefit Trust elects part of the board. No named risk owner is published.",
+      "sources": [
+        "iso42001",
+        "certs",
+        "ltbt"
+      ]
+    },
+    "GOV-2": {
+      "level": 2,
+      "evidence": "A published, dated Usage Policy sets prohibited uses and high-risk use requirements, enforced by a Safeguards team. Enforcement data for Jan to Jun 2026 reports 11.4 million banned accounts. Staff acknowledgement and yearly review are not evidenced.",
+      "sources": [
+        "aup",
+        "trust-reporting"
+      ]
+    },
+    "RISK-1": {
+      "level": 2,
+      "evidence": "The RSP sets capability assessments on a set interval and published Risk Reports every 3 to 6 months (Feb and Aug 2026). Each model release has a system card recording safety evaluations and deployment decisions.",
+      "sources": [
+        "rsp",
+        "rsp-v3",
+        "system-cards",
+        "iso42001"
+      ]
+    },
+    "RISK-2": {
+      "level": 3,
+      "evidence": "Risk Reports cover AI-specific threat models (CBRN uplift, automated AI R&D, sabotage), active mitigations and an overall risk assessment on a 3 to 6 month cycle; ISO 42001 certification attests to a risk assessment and treatment process.",
+      "sources": [
+        "rsp",
+        "rsp-v3",
+        "iso42001"
+      ]
+    },
+    "DATA-1": {
+      "level": 2,
+      "evidence": "Commercial terms state Anthropic may not train models on customer content; consumer data has published retention limits (deleted chats purged from back end within 30 days). No attestation specific to data minimisation was found.",
+      "sources": [
+        "commercial-terms",
+        "retention",
+        "certs"
+      ]
+    },
+    "ACCESS-1": {
+      "level": 2,
+      "evidence": "Claude Code cloud sessions keep GitHub credentials out of the VM, giving it only a short-lived session-scoped credential via a proxy. Internally, no person has persistent production access (two-party control). No measured leak rate is published.",
+      "sources": [
+        "cc-security",
+        "frontier-security"
+      ]
+    },
+    "ACCESS-2": {
+      "level": 2,
+      "evidence": "Claude Code enforces deny, then ask, then allow rule precedence; deny rules cannot be overridden by allow rules or hooks and can be locked in managed settings. Rejections can be logged via opt-in telemetry; no published test evidence.",
+      "sources": [
+        "cc-permissions",
+        "cc-monitoring"
+      ]
+    },
+    "ROBUST-1": {
+      "level": 3,
+      "evidence": "Anthropic publishes measured prompt injection results: an adaptive attacker with 100 attempts per environment reached 1.4% attack success on Claude Opus 4.5 with safeguards. Classifiers scan untrusted content; red teaming is continuous.",
+      "sources": [
+        "pi-research",
+        "transparency"
+      ]
+    },
+    "OVERSIGHT-1": {
+      "level": 2,
+      "evidence": "Claude's constitution makes not undermining human oversight its top priority. Claude Code permission modes require approval for sensitive actions, and admins can disable bypass and auto modes. No scheduled stop-control testing is published.",
+      "sources": [
+        "constitution",
+        "cc-security",
+        "cc-permissions"
+      ]
+    },
+    "OVERSIGHT-2": {
+      "level": 2,
+      "evidence": "Claude Code tool scope is set by per-project and managed allow, ask and deny rules; allowManagedPermissionRulesOnly makes managed settings the only rule source. Review on change is supported via ConfigChange hooks but not evidenced.",
+      "sources": [
+        "cc-permissions",
+        "cc-security"
+      ]
+    },
+    "LOG-1": {
+      "level": 2,
+      "evidence": "For Anthropic-hosted Claude Code cloud sessions, all operations are logged for compliance and audit purposes. Tamper-evident storage or retention periods for these logs are not stated publicly.",
+      "sources": [
+        "cc-security"
+      ]
+    },
+    "LOG-2": {
+      "level": 3,
+      "evidence": "A Safeguards team and threat intelligence function detect misuse, build automated detections and ban accounts; the Sept 2026 report covers disruptions across seven harm areas, and enforcement data reports 11.4 million bans in H1 2026.",
+      "sources": [
+        "aup",
+        "threat-intel",
+        "trust-reporting"
+      ]
+    },
+    "LOG-3": {
+      "level": 3,
+      "evidence": "The RSP describes an incident response protocol and jailbreak rapid response; staff have an emergency alerting channel. Mapped reporting duties are exercised: 15,079 NCMEC reports in H1 2026 and IOC sharing with partners and governments.",
+      "sources": [
+        "rsp",
+        "commitments",
+        "trust-reporting",
+        "threat-intel"
+      ]
+    },
+    "SUPPLY-1": {
+      "level": 2,
+      "evidence": "Vendors that handle Anthropic data must hold recognised certifications and undergo independent security audits. A public model inventory with re-review on provider change is not published.",
+      "sources": [
+        "commitments"
+      ]
+    },
+    "TRANSP-1": {
+      "level": 3,
+      "evidence": "Anthropic publishes a system card for each model (latest Haiku 5.5, Oct 2026) covering capabilities, safety evaluations and deployment decisions, and a Transparency Hub model report with training data, limitations and evaluation summaries.",
+      "sources": [
+        "system-cards",
+        "transparency"
+      ]
+    },
+    "EVAL-1": {
+      "level": 3,
+      "evidence": "Models undergo RSP capability evaluations on a set interval plus internal and external red teaming; named external evaluators include UK AISI, US CAISI and METR. Results appear in system cards and Risk Reports.",
+      "sources": [
+        "rsp",
+        "commitments",
+        "system-cards",
+        "transparency"
+      ]
+    },
+    "CHANGE-1": {
+      "level": 2,
+      "evidence": "Anthropic states it is implementing NIST SSDF and SLSA to create a chain of custody from a deployed model back to its developer, with two-party control on production systems. No attestation of change control over prompts or models was found.",
+      "sources": [
+        "frontier-security"
+      ]
+    },
+    "APP-5": {
+      "level": 2,
+      "evidence": "The Claude API enforces organisation-level rate limits (RPM, ITPM, OTPM) and monthly spend caps, and customers can set lower spend and rate limits per workspace. Spend alerting was not confirmed on the fetched page.",
+      "sources": [
+        "rate-limits"
+      ]
+    },
+    "APP-7": {
+      "level": 2,
+      "evidence": "Users can report harmful or inaccurate output via the in-product thumbs-down feature or usersafety@anthropic.com; security issues go through HackerOne with a three-business-day acknowledgement. Triage SLAs for output reports are not published.",
+      "sources": [
+        "aup",
+        "disclosure"
+      ]
+    },
+    "AGENT-2": {
+      "level": 2,
+      "evidence": "Claude Code tiers actions: read-only actions run freely, edits and shell commands need approval in Manual mode, and auto mode routes actions to a safety classifier. Docs acknowledge prompt fatigue; no audit of rubber-stamping is published.",
+      "sources": [
+        "cc-security",
+        "cc-permissions"
+      ]
+    },
+    "AGENT-4": {
+      "level": 2,
+      "evidence": "Claude Code cloud sessions run in isolated Anthropic-managed VMs with limited, allowlistable network access, credentials kept out of the VM, and VMs reclaimed after inactivity. The local bash sandbox is off by default.",
+      "sources": [
+        "cc-security",
+        "cc-sandbox"
+      ]
+    },
+    "MCP-1": {
+      "level": 2,
+      "evidence": "By default users can add any MCP server; admins can enforce an exclusive managed-mcp.json set or an allowlist locked to managed settings in Claude Code. Usage of servers can be monitored via OpenTelemetry. Anthropic does not audit MCP servers.",
+      "sources": [
+        "cc-managed-mcp",
+        "cc-security"
+      ]
+    },
+    "MCP-8": {
+      "level": 3,
+      "evidence": "Developer guidance says to deliver third-party content in tool results, which Claude treats skeptically; Claude Code gates actions with permission prompts. The Transparency Hub reports Sonnet 4.5 prevented 94% of prompt injection attacks via MCP.",
+      "sources": [
+        "pi-guidance",
+        "cc-security",
+        "transparency"
+      ]
+    },
+    "MCP-9": {
+      "level": 2,
+      "evidence": "Claude Code OpenTelemetry export can log tool calls with user email, account and session IDs, and MCP server and tool names when OTEL_LOG_TOOL_DETAILS=1. Telemetry and tool details are opt-in, not on by default.",
+      "sources": [
+        "cc-monitoring",
+        "cc-managed-mcp"
+      ]
+    },
+    "EU-5": {
+      "level": 2,
+      "evidence": "As a general-purpose model provider, Anthropic said in July 2025 it intends to sign the EU GPAI Code of Practice and publishes per-model training data descriptions and system cards. A copyright policy page was not verified.",
+      "sources": [
+        "eu-code",
+        "transparency",
+        "system-cards"
+      ]
+    }
+  }
+}
