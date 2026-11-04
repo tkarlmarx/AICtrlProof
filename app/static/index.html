@@ -26,6 +26,10 @@
       <input id="u" name="user" autocomplete="username" required>
       <label for="p">Password</label>
       <input id="p" name="password" type="password" autocomplete="current-password" required>
+      <div id="demoHint" class="demo-hint" hidden>
+        <div><b>Demo access</b><br>Username <code id="dUser"></code><br>Password <code id="dPass"></code></div>
+        <button type="button" class="btn ghost small" id="dFill">Fill in</button>
+      </div>
       <p id="loginErr" class="err" role="alert"></p>
       <button class="btn primary" type="submit">Sign in</button>
     </form>

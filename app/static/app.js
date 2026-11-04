@@ -22,7 +22,14 @@ function toast(msg, bad = false) {
 }
 
 /* ---------------- login ---------------- */
-function showLogin() { $("#app").hidden = true; $("#login").hidden = false; $("#u").focus(); }
+function showLogin() {
+  $("#app").hidden = true; $("#login").hidden = false; $("#u").focus();
+  fetch("/api/demo").then((r) => r.json()).then((d) => {
+    if (!d.demo) return;
+    $("#dUser").textContent = d.user; $("#dPass").textContent = d.password; $("#demoHint").hidden = false;
+    $("#dFill").onclick = () => { $("#u").value = d.user; $("#p").value = d.password; $("#loginForm").requestSubmit(); };
+  }).catch(() => {});
+}
 $("#loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   $("#loginErr").textContent = "";

@@ -153,8 +153,9 @@ python3 -m http.server --directory results 9000   # /report.html and /assessment
 Web app (login, fill the assessment, live dashboard, standards map):
 
 ```bash
-CTRLPROOF_PASSWORD='choose-one' HOST=0.0.0.0 PORT=8090 python3 app/server.py
-# open http://<server-ip>:8090  (user: admin, or set CTRLPROOF_USER)
+HOST=0.0.0.0 PORT=8090 python3 app/server.py
+# open http://<server-ip>:8090. Demo mode: admin / ctrlproof-demo, shown on the login page.
+# Set CTRLPROOF_PASSWORD (and CTRLPROOF_USER) to turn demo mode off.
 ```
 
 As an MCP server:

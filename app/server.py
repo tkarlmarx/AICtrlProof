@@ -9,8 +9,9 @@ Run:
     python3 app/server.py                      # http://127.0.0.1:8090
     HOST=0.0.0.0 PORT=8090 python3 app/server.py   # reachable on your network
 
-Login: set CTRLPROOF_USER and CTRLPROOF_PASSWORD. If the password is not set,
-a random one is generated and printed at startup.
+Login: with no CTRLPROOF_PASSWORD the app runs in demo mode (admin /
+ctrlproof-demo, shown on the login page). Set CTRLPROOF_USER and
+CTRLPROOF_PASSWORD for anything beyond a demo.
 
 Answers are saved to app/data/answers.json (gitignored).
 """
@@ -32,8 +33,13 @@ ANSWERS = os.path.join(DATA, "answers.json")
 sys.path.insert(0, os.path.join(ROOT, "grc"))
 import assess  # noqa: E402
 
-USER = os.environ.get("CTRLPROOF_USER", "admin")
-PASSWORD = os.environ.get("CTRLPROOF_PASSWORD") or secrets.token_urlsafe(9)
+# Demo mode: with no CTRLPROOF_PASSWORD set, fixed demo credentials are used and
+# shown on the login page. Set CTRLPROOF_PASSWORD to turn demo mode off; the
+# login page then shows nothing.
+DEMO_USER, DEMO_PASSWORD = "admin", "ctrlproof-demo"
+DEMO = not os.environ.get("CTRLPROOF_PASSWORD")
+USER = os.environ.get("CTRLPROOF_USER", DEMO_USER)
+PASSWORD = DEMO_PASSWORD if DEMO else os.environ["CTRLPROOF_PASSWORD"]
 SESSIONS = {}  # token -> user
 LOCK = threading.Lock()
 
@@ -123,6 +129,9 @@ class Handler(BaseHTTPRequestHandler):
             return self._static("index.html")
         if p.startswith("/static/"):
             return self._static(p[len("/static/"):])
+        if p == "/api/demo":
+            return self._json(200, {"demo": DEMO, "user": USER if DEMO else None,
+                                    "password": PASSWORD if DEMO else None})
         if p == "/api/me":
             u = self._user()
             return self._json(200 if u else 401, {"user": u})
@@ -202,8 +211,9 @@ def main():
     host = os.environ.get("HOST", "127.0.0.1")
     port = int(os.environ.get("PORT", "8090"))
     srv = ThreadingHTTPServer((host, port), Handler)
-    shown = "(from CTRLPROOF_PASSWORD)" if os.environ.get("CTRLPROOF_PASSWORD") else PASSWORD
-    print(f"AICtrlProof app on http://{host}:{port}  login: {USER} / {shown}", flush=True)
+    mode = f"demo login {USER} / {PASSWORD} (shown on the login page)" if DEMO \
+        else f"login {USER} / (from CTRLPROOF_PASSWORD)"
+    print(f"AICtrlProof app on http://{host}:{port}  {mode}", flush=True)
     srv.serve_forever()
 
 

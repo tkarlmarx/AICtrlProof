@@ -54,6 +54,9 @@ h3 { font-size: 15px; font-weight: 650; margin-bottom: 14px; }
 input, select, textarea { font: inherit; color: var(--ink); background: #fff; border: 1px solid #c9d0de; border-radius: var(--rc); padding: 10px 12px; width: 100%; }
 input:focus, select:focus, textarea:focus, .btn:focus-visible, .opt:focus-visible, .tab:focus-visible { outline: 3px solid rgba(44,86,217,.35); outline-offset: 1px; border-color: var(--accent); }
 label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.demo-hint { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; padding: 12px 14px; border-radius: var(--rc);
+  background: var(--accent-soft); border: 1px solid #c9d6fa; font-size: 13px; color: #1c3fa8; line-height: 1.6; }
+.demo-hint code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 13px; background: #fff; padding: 1px 6px; border-radius: 6px; color: var(--ink); }
 .err { color: var(--high); font-size: 13px; min-height: 18px; margin: 0; }
 
 /* brand */
