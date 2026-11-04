@@ -60,9 +60,11 @@ pip install -r grc/requirements.txt
 python3 grc/mcp_server.py
 ```
 
-There is no formal test suite yet. The known-answer check is: a mock run should
-show `broker` at ~0% leak and `injection` with a clearly higher leak than
-`baseline`. If it does not, scoring is broken.
+Tests: `python3 -m unittest discover -s tests -v` (standard library only). They
+pin the lab scoring thresholds, Wilson intervals, leak attribution, the runner's
+"use" guard, and the question bank schema. The end-to-end known-answer check is
+still: a mock run should show `broker` at ~0% leak and `injection` with a clearly
+higher leak than `baseline`. If it does not, scoring is broken.
 
 ## File map
 
@@ -77,14 +79,22 @@ show `broker` at ~0% leak and `injection` with a clearly higher leak than
 | `harness/report.py` | the lab dashboard `results/report.html` |
 | `harness/mock_agent.py` | configurable stand-in agent (profiles: careful, curious, leaky, obedient, broker) |
 | `harness/agent_adapter.py` | wire a real agent here (aider, claude-code, shell) |
-| `grc/questions.json` | the question bank, each tagged to frameworks |
+| `grc/questions.json` | the question bank: options, profile, AI policy, framework, and NIST metric tags; `meta.clauses` is the canonical clause list |
+| `grc/policy.json` | the model AI policy, clauses POL-01 to POL-12 |
+| `tests/` | known-answer and schema tests |
 | `grc/assess.py` | scoring library + CLI; `compute`, `verify`, mapping helpers |
 | `grc/mcp_server.py` | MCP server (SDK 2.x, `MCPServer`) over stdio |
 
 ## How to extend
 
 - **Add an assessment question**: append to `grc/questions.json`. Give it a
-  `domain`, `risk_weight` (1-5), framework `tags`, and `type`. Attested questions
+  `domain`, `risk_weight` (1-5), `applies_to` (core, app, agent, mcp), four
+  `options` (maturity 0-3), `policy` clause ids, framework `tags` (only clauses
+  in `meta.clauses`; add new ones there first), a `nist_metric`
+  (`subcategory`, `metric`, `target`), and `type`. The schema test enforces this.
+  Only mark a question `tested` if the lab actually exercises that kind of
+  system; MCP and app controls stay attested until a lab scenario covers them
+  (note it in `lab_scenario`). Attested questions
   stop there. A `tested` question needs a `metric` string and a matching branch
   in `assess.verify` that reads `results/` and returns
   `(maturity 0-3, verified bool, evidence str)`.

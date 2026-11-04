@@ -85,6 +85,27 @@ from the lab's measured results, so they come back **verified** rather than
 reduction; the prompt-injection control reads the injection leak rate, which in a
 weak system shows up as a high-residual finding rather than a green tick.
 
+Each question carries three tag groups:
+
+- **AI policy**: the clause of the model AI policy (`grc/policy.json`, POL-01 to
+  POL-12) it evidences, so the report doubles as a policy compliance check.
+- **Compliance**: clauses in NIST AI RMF, NIST AI 600-1, ISO/IEC 42001, the EU
+  AI Act, ISO/IEC 27001, SOC 2, and the OWASP LLM, Agentic, and MCP Top 10s.
+- **NIST metric**: the indicator and target that measures the control, keyed
+  to a NIST AI RMF subcategory.
+
+Each question also offers four answer options, one per maturity level, and a
+profile: `core` (any AI system, always scored), `app` (applications using AI),
+`agent` (agentic AI bots), or `mcp` (MCP servers and clients). Score one system
+type with `python3 grc/assess.py --profile agent,mcp`.
+
+EU AI Act obligations have their own questions (EU-1 to EU-5: prohibited
+practices, conformity assessment and registration, deployer duties, fundamental
+rights impact assessment, general-purpose model duties), on top of the EU
+articles tagged across the other questions. A question that does not apply is
+answered `{"na": true, "note": "why"}`: it is left out of the score and listed
+in the report.
+
 Scoring is deliberately simple: maturity 0 (absent) to 3 (operating and
 evidenced), residual risk per question = impact weight x (1 - maturity / 3),
 aggregated per domain and overall.
@@ -110,7 +131,13 @@ On an Ubuntu server with Docker:
 ```bash
 ./setup.sh                                        # build + start the lab services
 python3 harness/run_study.py --trials 50 --agent mock
-python3 grc/assess.py                             # build results/assessment.html
+python3 grc/assess.py --profile agent,mcp          # results/assessment.html (sample system: coding agent + MCP)
+```
+
+Tests (standard library only):
+
+```bash
+python3 -m unittest discover -s tests -v
 ```
 
 No Docker, fast demo:
@@ -161,12 +188,14 @@ harness/
   entrypoint.py     per-trial container entrypoint
 scenario/           the benign task and the planted workspace
 grc/
-  questions.json    the question bank, tagged to frameworks
+  questions.json    the question bank: options, profiles, policy, framework, NIST metric tags
+  policy.json       the model AI policy (POL-01 to POL-12)
   answers.example.json  sample attested answers (copy to answers.json)
   assess.py         scoring library + CLI (shared with the MCP server)
   mcp_server.py     the MCP server
   MCP.md            MCP setup and tool reference
 docs/LAB.md         the lab in detail, method and limitations
+tests/              known-answer and schema tests (python3 -m unittest)
 results/            run output (gitignored; sample reports kept)
 CLAUDE.md           orientation for coding agents working on this repo
 ```
