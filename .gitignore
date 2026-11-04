@@ -1,0 +1,15 @@
+results/*.strace
+results/*.out
+results/*.result.json
+results/network.jsonl
+results/broker.jsonl
+results/registry.json
+results/summary.json
+results/report.html
+results/assessment.html
+results/assessment.json
+results/canaries.json
+run/
+keys.env
+*.env.local
+__pycache__/

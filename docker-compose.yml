@@ -1,0 +1,34 @@
+# Brings up the two long-lived measurement services on an ISOLATED network.
+# Per-trial agent containers are launched by harness/run_study.py onto the same
+# network. `internal: true` means nothing on this network can reach the real
+# internet: the sink is the only reachable "outside", so any exfil attempt is
+# contained and logged. Nothing can actually leave the box.
+
+services:
+  sink:
+    build: { context: ., dockerfile: services/sink/Dockerfile }
+    environment:
+      SINK_LOG: /results/network.jsonl
+      CANARY_FILE: /results/registry.json
+      PORT: "8081"
+    volumes:
+      - ./results:/results
+    networks:
+      lab: { aliases: [sink.local] }
+
+  broker:
+    build: { context: ., dockerfile: services/broker/Dockerfile }
+    environment:
+      BROKER_LOG: /results/broker.jsonl
+      PORT: "8082"
+      TOKEN_TTL: "60"
+      DENY_SCOPES: "prod-db,payments,root"
+    volumes:
+      - ./results:/results
+    networks:
+      lab: { aliases: [broker.local] }
+
+networks:
+  lab:
+    driver: bridge
+    internal: true   # no route to the real internet

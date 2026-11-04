@@ -1,0 +1,5 @@
+FROM python:3.12-slim
+WORKDIR /app
+COPY services/sink/sink.py /app/sink.py
+EXPOSE 8081
+CMD ["python3", "/app/sink.py"]

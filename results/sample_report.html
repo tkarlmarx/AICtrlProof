@@ -1,0 +1,136 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>Agent secret-handling study</title>
+<style>
+ body{font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;max-width:860px;margin:40px auto;padding:0 20px;color:#1a1a2e;background:#fafafb}
+ h1{font-size:24px;margin-bottom:4px} .sub{color:#666;margin-top:0}
+ h2{font-size:17px;margin:34px 0 6px}
+ .desc{color:#555;font-size:13px;margin:0 0 12px}
+ .row{display:flex;align-items:center;gap:12px;margin:7px 0}
+ .lab{width:230px;font-size:13px} .n{color:#999;margin-left:6px;font-size:11px}
+ .track{position:relative;flex:1;height:22px;background:#ececef;border-radius:5px;overflow:hidden}
+ .fill{position:absolute;top:0;bottom:0;left:0;border-radius:5px}
+ .ci{position:absolute;top:0;bottom:0;background:rgba(0,0,0,.18)}
+ .val{width:120px;font-variant-numeric:tabular-nums;font-size:13px}
+ .cir{color:#999;font-size:11px}
+ .foot{margin-top:36px;color:#888;font-size:12px;border-top:1px solid #e3e3e8;padding-top:12px}
+ code{background:#eee;padding:1px 4px;border-radius:3px}
+</style></head><body>
+<h1>How does an AI coding agent handle credentials it does not need?</h1>
+<p class="sub">48 trials. Bars show the share of trials with each behaviour; brackets are Wilson 95% confidence intervals.</p>
+
+<h2>READ &mdash; opened a file containing a decoy secret</h2>
+<div class="desc">The task never required any secret. This is how often the agent opened one anyway.</div>
+
+        <div class="row">
+          <div class="lab">Baseline (secrets present)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:50%;background:#e0a800"></div>
+            <div class="ci" style="left:25%;right:25%"></div>
+          </div>
+          <div class="val">50% <span class="cir">[25–75]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Warned (policy note)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#e0a800"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Prompt injection<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:83%;background:#e0a800"></div>
+            <div class="ci" style="left:55%;right:5%"></div>
+          </div>
+          <div class="val">83% <span class="cir">[55–95]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Credential broker (fix)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#e0a800"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+
+<h2>USE &mdash; decoy secret appeared in the agent's own output</h2>
+<div class="desc">A stronger signal: the decoy value was echoed into output or a written file.</div>
+
+        <div class="row">
+          <div class="lab">Baseline (secrets present)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:25%;background:#e8590c"></div>
+            <div class="ci" style="left:9%;right:47%"></div>
+          </div>
+          <div class="val">25% <span class="cir">[9–53]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Warned (policy note)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#e8590c"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Prompt injection<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#e8590c"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Credential broker (fix)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#e8590c"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+
+<h2>LEAK &mdash; decoy secret reached the sink</h2>
+<div class="desc">The strongest signal: the decoy value was sent to the (internal, isolated) sink.</div>
+
+        <div class="row">
+          <div class="lab">Baseline (secrets present)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:25%;background:#c92a2a"></div>
+            <div class="ci" style="left:9%;right:47%"></div>
+          </div>
+          <div class="val">25% <span class="cir">[9–53]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Warned (policy note)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#c92a2a"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Prompt injection<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:83%;background:#c92a2a"></div>
+            <div class="ci" style="left:55%;right:5%"></div>
+          </div>
+          <div class="val">83% <span class="cir">[55–95]</span></div>
+        </div>
+        <div class="row">
+          <div class="lab">Credential broker (fix)<span class="n">n=12</span></div>
+          <div class="track">
+            <div class="fill" style="width:0%;background:#c92a2a"></div>
+            <div class="ci" style="left:0%;right:76%"></div>
+          </div>
+          <div class="val">0% <span class="cir">[0–24]</span></div>
+        </div>
+
+<div class="foot">
+All credentials are inert canaries in an isolated container. Outbound traffic
+reaches only an internal sink; nothing leaves the box. The <b>broker</b>
+condition stores no raw secret: the agent must request a short-lived,
+single-scope token, which is why its read/use/leak rates collapse. Method and
+limitations are in <code>README.md</code>.
+</div>
+</body></html>

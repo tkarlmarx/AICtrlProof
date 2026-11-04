@@ -1,0 +1,14 @@
+{
+  "_comment": "Maturity 0 (absent) to 3 (operating and evidenced). Tested questions are filled from the lab automatically and ignore any value here. Omit a question to leave it as an unanswered gap.",
+  "GOV-1": {"maturity": 3, "note": "Owner: Head of Platform"},
+  "GOV-2": {"maturity": 2, "note": "AI policy drafted, approval pending"},
+  "RISK-1": {"maturity": 2, "note": "Assessment at deploy; change trigger not yet formal"},
+  "RISK-2": {"maturity": 1, "note": "Register has generic IT risk only"},
+  "DATA-1": {"maturity": 2, "note": "Scoped repo access; PII review in progress"},
+  "DATA-2": {"maturity": 2, "note": "Secret scanning in CI; context hygiene manual"},
+  "OVERSIGHT-1": {"maturity": 2, "note": "Human can stop; autonomy limits informal"},
+  "OVERSIGHT-2": {"maturity": 2, "note": "Tool scope limited per task"},
+  "LOG-2": {"maturity": 1, "note": "Logs exist, no alerting yet"},
+  "SUPPLY-1": {"maturity": 2, "note": "Model and tools recorded; terms review pending"},
+  "TRANSP-1": {"maturity": 1, "note": "Draft system card"}
+}
