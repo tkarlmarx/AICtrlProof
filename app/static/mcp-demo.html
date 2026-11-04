@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>ctrlproof MCP demo: third-party AI vendor assessment</title>
+<link rel="stylesheet" href="/static/app.css">
+<style>
+.mcpd{background:var(--bg);color:var(--ink);min-height:100vh}
+.mcpd__top{padding:14px 24px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;background:var(--surface)}
+.mcpd__badge{background:var(--accent);color:var(--accent-ink);font-weight:700;padding:2px 8px;border-radius:4px;font-size:12px}
+.mcpd__server{color:var(--ink-3);font-size:13px}
+.mcpd__back{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600}
+.mcpd__case{padding:14px 24px;color:var(--ink-2);border-bottom:1px solid var(--line);background:var(--surface)}
+.mcpd__case b{color:var(--ink)}
+.mcpd__replay{margin-left:12px}
+.mcpd__chat{max-width:980px;margin:0 auto;padding:18px 24px 90px}
+.mcpd__msg{margin:14px 0;opacity:0;transform:translateY(6px);transition:all .4s}.mcpd__msg.is-on{opacity:1;transform:none}
+.mcpd__user{background:var(--accent-soft);border-radius:10px;padding:10px 14px;max-width:80%;margin-left:auto}
+.mcpd__who{font-size:12px;color:var(--ink-3);margin-bottom:4px}
+.mcpd__tool{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 14px;font:13px ui-monospace,monospace}
+.mcpd__toolname{color:var(--accent-ink-2);font-weight:600}.mcpd__args{color:var(--ink-3);white-space:pre-wrap}
+.mcpd__res{border-left:3px solid var(--accent);background:var(--surface);border-radius:6px;padding:12px 14px}
+.mcpd__big{font-size:28px;font-weight:700}
+.mcpd__sev--high,.mcpd__bad{color:var(--high)}.mcpd__sev--medium{color:var(--med)}.mcpd__sev--low,.mcpd__ok{color:var(--low)}
+.mcpd__table{border-collapse:collapse;width:100%;margin-top:8px;font-size:13px}
+.mcpd__table td,.mcpd__table th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+.mcpd__table th{color:var(--ink-3);font-weight:500}
+.mcpd__ai{padding:4px 2px}
+.mcpd__foot{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);padding:8px 24px;font-size:12px;color:var(--ink-3)}
+</style></head><body class="mcpd">
+<div class="mcpd__top"><span class="mcpd__badge">MCP</span><b>ctrlproof</b><span class="mcpd__server"></span><a class="mcpd__back" href="/">Back to app</a></div>
+<div class="mcpd__case"><b>Use case:</b> a risk team must decide whether to let a third-party agentic coding assistant
+(<b>Forgepoint Pilot</b>, an invented vendor) into its estate. The analyst asks an AI assistant, connected to ctrlproof over MCP,
+to score the vendor's questionnaire, map it to the EU AI Act, and compare what the vendor <i>claims</i> with what our own
+lab has <i>proved</i>. <button class="btn ghost mcpd__replay" onclick="location.reload()">Replay</button></div>
+<div class="mcpd__chat" id="chat"></div>
+<div class="mcpd__foot">Replay of real responses from the ctrlproof MCP server (grc/mcp_server.py), recorded by scripts/mcp_demo_transcript.py. Lab evidence is from the mock-agent known-answer run.</div>
+<script>
+const chat=document.getElementById('chat');
+const pct=x=>Math.round(x*100)+'%';
+function add(html){const d=document.createElement('div');d.className='mcpd__msg';d.innerHTML=html;chat.appendChild(d);
+ requestAnimationFrame(()=>d.classList.add('is-on'));window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
+const user=t=>`<div class="mcpd__user"><div class="mcpd__who">Risk analyst</div>${t}</div>`;
+const tool=(n,a)=>`<div class="mcpd__tool"><span class="mcpd__who">tool call</span> <span class="mcpd__toolname">ctrlproof.${n}</span><div class="mcpd__args">${JSON.stringify(a,null,1)}</div></div>`;
+const ai=t=>`<div class="mcpd__ai"><div class="mcpd__who">Assistant</div>${t}</div>`;
+fetch('/static/mcp-demo-transcript.json').then(r=>r.json()).then(T=>{
+ document.querySelector('.mcpd__server').textContent=`server ${T.server.name} ${T.server.version} · ${T.tools.length} tools: ${T.tools.join(', ')}`;
+ const [A,C,V]=T.calls, a=A.result, eu=C.result['EU AI Act'], ver=V.result.result;
+ const top=[...a.questions].sort((x,y)=>y.residual-x.residual).slice(0,5);
+ const doms=Object.entries(a.domains).sort((x,y)=>y[1].frac-x[1].frac).slice(0,5);
+ const steps=[
+  ()=>add(user('Use ctrlproof to assess Forgepoint Pilot from their submitted questionnaire. They are a third party, so do not use our lab evidence.')),
+  ()=>add(tool(A.tool,A.args)),
+  ()=>add(`<div class="mcpd__res"><div class="mcpd__who">result</div>Overall residual risk <span class="mcpd__big mcpd__sev--${a.overall_sev}">${pct(a.overall_residual)}</span> <b class="mcpd__sev--${a.overall_sev}">${a.overall_sev.toUpperCase()}</b>
+   &nbsp;·&nbsp; tested controls <b>${a.tested_count}</b>, verified <b class="mcpd__bad">${a.verified_count}</b>
+   <table class="mcpd__table"><tr><th>Domain</th><th>Residual</th><th>Gaps</th></tr>${doms.map(([k,d])=>`<tr><td>${k}</td><td class="mcpd__sev--${d.sev}">${pct(d.frac)}</td><td>${d.gaps}/${d.n}</td></tr>`).join('')}</table></div>`),
+  ()=>add(ai(`Forgepoint scores <b>${a.overall_sev}</b> risk. Their answers are self-attested, and none of the ${a.tested_count} testable controls is verified. Biggest gaps: ${top.map(q=>q.id).join(', ')}.`)),
+  ()=>add(user('Which EU AI Act obligations does this touch, and how many are covered?')),
+  ()=>add(tool(C.tool,C.args)),
+  ()=>add(`<div class="mcpd__res"><div class="mcpd__who">result</div>EU AI Act: <b>${eu.total}</b> controls referenced · <b class="mcpd__ok">${eu.addressed}</b> addressed · <b>${eu.verified}</b> verified · <b class="mcpd__bad">${eu.gaps}</b> gaps</div>`),
+  ()=>add(user('Now show me what our own lab has actually proved, so I know what to demand from them.')),
+  ()=>add(tool(V.tool,V.args)),
+  ()=>add(`<div class="mcpd__res"><div class="mcpd__who">result: controls verified in the sandbox</div><table class="mcpd__table"><tr><th>Control</th><th>Maturity</th><th>Evidence</th></tr>${ver.map(v=>`<tr><td>${v.id}</td><td class="${v.maturity>=2?'mcpd__ok':'mcpd__bad'}">${v.maturity}/3</td><td>${v.evidence}</td></tr>`).join('')}</table></div>`),
+  ()=>add(ai(`Our own agent has <b>${ver.length}</b> controls tested in the sandbox, with measured evidence. Forgepoint has <b>${a.verified_count}</b>. Recommendation: approve only after they run the same lab tests, or run them ourselves against their agent.`)),
+ ];
+ let i=0;(function next(){if(i<steps.length){steps[i++]();setTimeout(next,i%3==2?1600:1300);}})();
+});
+</script></body></html>
