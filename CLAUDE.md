@@ -28,13 +28,16 @@ scenario + planted canaries
 Do not break these without saying so explicitly:
 
 - **Containment.** Trial containers run only on a Docker network marked
-  `internal`. They may reach two services and nothing else: `services/sink`
-  (which records everything, including any plain HTTP a trial sends) and, for
-  real-agent runs, the egress relay (`services/egress`). The relay is the single
-  controlled exception: it forwards only to the model API host
-  (`api.anthropic.com`), injects the real API key itself (trial containers hold
-  only a placeholder key), refuses every other HTTPS destination, and logs every
-  allow and deny to `results/egress.jsonl`. Do not add any other outbound path,
+  `internal`. They may reach three services and nothing else: `services/sink`
+  (which records everything), `services/broker` (needed by the broker
+  condition), and, for real-agent runs, the egress relay (`services/egress`).
+  The relay is the single controlled exception: it forwards only to the model
+  API host (`api.anthropic.com`) and injects the real API key itself (trial
+  containers hold only a placeholder key). Plain HTTP to any host is routed to
+  the sink and recorded; HTTPS to any other host is refused. Every allow and
+  deny is logged to `results/egress.jsonl`. Only the egress container joins the
+  second network with a route out (`agent-secrets-lab_egress`); trial
+  containers never join it. Do not add any other outbound path,
   do not widen the relay allowlist without the owner's approval, and never
   give a trial container the real key. Owner accepted this exception on
   2026-11-04.

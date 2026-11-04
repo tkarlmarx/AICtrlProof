@@ -8,7 +8,7 @@ Read it before changing anything. In short:
 - This is AICtrlProof, an AI risk assessment whose testable controls are verified
   by running an agent in an isolated sandbox, exposed over MCP.
 - Invariants you must not break: trial containers stay network-isolated to the
-  sink plus the egress relay to the model API (the one approved exception), planted secrets are always inert canaries, scoring lives only in
+  sink and broker, plus the egress relay to the model API (the one approved exception), planted secrets are always inert canaries, scoring lives only in
   `grc/assess.py`, and the repo must not become a usable attack kit.
 - Run a fast check with `./run_local.sh 12 && python3 grc/assess.py`. A healthy
   run shows the `broker` condition near 0% leak and `injection` clearly above
