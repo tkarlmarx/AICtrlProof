@@ -146,10 +146,14 @@ def verify(metric, summary, results_dir):
     return 0, False, "unknown metric"
 
 
-def compute(answers=None, results_dir=RESULTS, use_lab_evidence=True, profiles=None):
+def compute(answers=None, results_dir=RESULTS, use_lab_evidence=True, profiles=None,
+            attest_tested=False):
     """Score the assessment. Returns the full result dict. Writes nothing.
     profiles: e.g. ["agent", "mcp"] to score only questions for those system
-    types (plus core). None scores every question."""
+    types (plus core). None scores every question.
+    attest_tested: with use_lab_evidence False, score tested questions from the
+    answers like attested ones (third-party assessments, where our lab never
+    exercised their system). Never marks anything verified."""
     qb = load_questions()
     if answers is None:
         answers = load(os.path.join(HERE, "answers.json")) \
@@ -160,7 +164,8 @@ def compute(answers=None, results_dir=RESULTS, use_lab_evidence=True, profiles=N
     rows, not_applicable = [], []
     for q in select_questions(qb["questions"], profiles):
         a = answers.get(q["id"])
-        if q["type"] != "tested" and a and a.get("na"):
+        attestable = q["type"] != "tested" or (attest_tested and not use_lab_evidence)
+        if attestable and a and a.get("na"):
             # declared not applicable: excluded from scoring, listed in the report
             not_applicable.append({"id": q["id"], "question": q["question"],
                                    "note": a.get("note", "")})
@@ -168,7 +173,7 @@ def compute(answers=None, results_dir=RESULTS, use_lab_evidence=True, profiles=N
         if q["type"] == "tested" and use_lab_evidence:
             mat, verified, evidence = verify(q["metric"], summary, results_dir)
             answered = verified
-        elif q["type"] == "tested":
+        elif q["type"] == "tested" and not attest_tested:
             mat, verified, evidence, answered = 0, False, "lab evidence disabled", False
         else:
             a = answers.get(q["id"])

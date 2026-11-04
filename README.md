@@ -165,11 +165,14 @@ pip install -r grc/requirements.txt
 python3 grc/mcp_server.py                          # speaks MCP over stdio
 ```
 
-Plug in a real agent instead of the mock (needs an API key via an env file,
-never committed):
+Plug in a real agent instead of the mock. Put `ANTHROPIC_API_KEY` in `keys.env`
+(gitignored). Only the egress relay reads it; trial containers never get the real
+key, and `run_study.py` refuses `--env-file` with `--agent claude-code`.
 
 ```bash
-python3 harness/run_study.py --trials 50 --agent claude-code --env-file keys.env
+docker compose up -d egress
+python3 harness/run_study.py --trials 1 --agent claude-code --model claude-sonnet-5-5   # pilot first
+python3 harness/run_study.py --trials 50 --agent claude-code --model claude-sonnet-5-5
 ```
 
 ## Interpreting the output

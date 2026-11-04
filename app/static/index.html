@@ -36,71 +36,109 @@
   </div>
 </section>
 
-<!-- App -->
+<!-- App (team) and respondent share this shell -->
 <div id="app" hidden>
   <header class="top">
     <div class="brand"><span class="mark">CP</span> AICtrlProof</div>
-    <nav class="tabs" role="tablist">
-      <button class="tab active" data-view="dash" role="tab">Dashboard</button>
-      <button class="tab" data-view="assess" role="tab">Assessment</button>
+    <nav class="tabs team-only" role="tablist">
+      <button class="tab active" data-view="list" role="tab">Assessments</button>
+      <button class="tab" data-view="dash" role="tab">Dashboard</button>
+      <button class="tab" data-view="assess" role="tab">Questions</button>
       <button class="tab" data-view="tags" role="tab">Standards map</button>
     </nav>
-    <div class="right">
-      <div class="profiles" id="profiles" aria-label="System types in scope"></div>
+    <div class="current team-only" id="current"></div>
+    <div class="right team-only">
       <button class="btn ghost" id="logout">Sign out</button>
     </div>
+    <div class="right resp-only" id="respHead"></div>
   </header>
 
   <main>
-    <!-- Dashboard -->
-    <section id="view-dash" class="view">
-      <div class="hero-row">
-        <div class="card tilt gauge-card">
-          <div class="gauge" id="gauge"><div class="gauge-inner"><b id="gaugeVal">-</b><span id="gaugeSev">residual risk</span></div></div>
-          <div class="gauge-text">
-            <h2>Overall residual risk</h2>
-            <p id="scopeLine" class="muted"></p>
+    <!-- Assessments list -->
+    <section id="view-list" class="view">
+      <div class="list-head">
+        <div>
+          <h2>Assessments</h2>
+          <p class="muted">Create one for your own system, or send a link to a vendor to fill in. Results land here for the team.</p>
+        </div>
+      </div>
+      <div class="list-grid">
+        <form id="newForm" class="card slab3d new-card" novalidate>
+          <h3>New assessment</h3>
+          <label for="nName">Assessment name</label>
+          <input id="nName" placeholder="e.g. Vendor chatbot review" required>
+          <label for="nOrg">Organisation</label>
+          <input id="nOrg" placeholder="e.g. Northwind Analytics" required>
+          <label>Type</label>
+          <div class="seg" id="nKind">
+            <button type="button" class="on" data-k="third-party">Third party</button>
+            <button type="button" data-k="internal">Internal</button>
           </div>
+          <label>System types in scope</label>
+          <div class="seg multi" id="nProf">
+            <button type="button" class="on" data-p="app">App</button>
+            <button type="button" class="on" data-p="agent">Agent</button>
+            <button type="button" class="on" data-p="mcp">MCP</button>
+          </div>
+          <p class="err" id="newErr" role="alert"></p>
+          <button class="btn primary" type="submit">Create</button>
+        </form>
+        <div id="cards" class="cards"></div>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="view-dash" class="view" hidden>
+      <div class="scene">
+        <div class="hero-row">
+          <div class="card slab3d tilt gauge-card">
+            <div class="gauge" id="gauge"><div class="gauge-inner"><b id="gaugeVal">-</b><span id="gaugeSev">risk</span></div></div>
+            <div class="gauge-text">
+              <h2>Overall residual risk</h2>
+              <p id="scopeLine" class="muted"></p>
+            </div>
+          </div>
+          <div class="kpis" id="kpis"></div>
         </div>
-        <div class="kpis" id="kpis"></div>
       </div>
 
-      <div class="grid-2">
-        <div class="card tilt">
-          <h3>Residual risk by domain</h3>
-          <div id="domains" class="bars"></div>
-        </div>
-        <div class="card tilt">
-          <h3>AI policy compliance</h3>
-          <div id="policy" class="policy-grid"></div>
-        </div>
+      <div class="card slab3d">
+        <h3>Residual risk by domain</h3>
+        <div id="domains" class="towers"></div>
       </div>
 
-      <div class="card tilt">
+      <div class="card slab3d">
         <h3>Standards coverage</h3>
         <div id="frameworks" class="fw-grid"></div>
       </div>
 
       <div class="grid-2">
-        <div class="card tilt">
+        <div class="card slab3d tilt">
+          <h3>AI policy compliance</h3>
+          <div id="policy" class="policy-grid"></div>
+        </div>
+        <div class="card slab3d tilt">
           <h3>Top findings</h3>
           <div id="findings" class="findings"></div>
         </div>
-        <div class="card tilt">
-          <h3>NIST AI RMF metrics</h3>
-          <div id="nist" class="nist"></div>
-        </div>
+      </div>
+
+      <div class="card slab3d">
+        <h3>NIST AI RMF metrics</h3>
+        <div id="nist" class="nist nist-wide"></div>
       </div>
     </section>
 
-    <!-- Assessment -->
+    <!-- Questions -->
     <section id="view-assess" class="view" hidden>
+      <div class="resp-intro card slab3d resp-only" id="respIntro"></div>
       <div class="assess-layout">
-        <aside class="side card">
+        <aside class="side card slab3d">
           <div class="progress"><div class="progress-fill" id="progFill"></div></div>
           <p class="muted small" id="progText"></p>
           <div id="domainNav" class="domain-nav"></div>
-          <button class="btn ghost small" id="resetBtn">Clear all answers</button>
+          <button class="btn primary resp-only" id="submitBtn">Submit answers</button>
+          <button class="btn ghost small team-only" id="resetBtn">Clear all answers</button>
         </aside>
         <div id="qlist" class="qlist"></div>
       </div>
@@ -108,7 +146,7 @@
 
     <!-- Standards map -->
     <section id="view-tags" class="view" hidden>
-      <div class="card">
+      <div class="card slab3d">
         <div class="tag-filter">
           <label for="fwSel">Framework</label>
           <select id="fwSel"></select>
