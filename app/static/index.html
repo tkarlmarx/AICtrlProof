@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AICtrlProof</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+
+<!-- Login -->
+<section id="login" class="login" hidden>
+  <div class="login-art" aria-hidden="true">
+    <div class="stack">
+      <div class="slab s1"><span>Attested</span></div>
+      <div class="slab s2"><span>Tested</span></div>
+      <div class="slab s3"><span>Verified</span></div>
+    </div>
+  </div>
+  <div class="login-panel">
+    <div class="brand"><span class="mark">CP</span> AICtrlProof</div>
+    <h1>AI controls you can prove.</h1>
+    <p class="lead">Assess AI apps, agents and MCP servers against policy, NIST, ISO 42001 and the EU AI Act.</p>
+    <form id="loginForm" class="card form" novalidate>
+      <label for="u">Username</label>
+      <input id="u" name="user" autocomplete="username" required>
+      <label for="p">Password</label>
+      <input id="p" name="password" type="password" autocomplete="current-password" required>
+      <p id="loginErr" class="err" role="alert"></p>
+      <button class="btn primary" type="submit">Sign in</button>
+    </form>
+  </div>
+</section>
+
+<!-- App -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand"><span class="mark">CP</span> AICtrlProof</div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="dash" role="tab">Dashboard</button>
+      <button class="tab" data-view="assess" role="tab">Assessment</button>
+      <button class="tab" data-view="tags" role="tab">Standards map</button>
+    </nav>
+    <div class="right">
+      <div class="profiles" id="profiles" aria-label="System types in scope"></div>
+      <button class="btn ghost" id="logout">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Dashboard -->
+    <section id="view-dash" class="view">
+      <div class="hero-row">
+        <div class="card tilt gauge-card">
+          <div class="gauge" id="gauge"><div class="gauge-inner"><b id="gaugeVal">-</b><span id="gaugeSev">residual risk</span></div></div>
+          <div class="gauge-text">
+            <h2>Overall residual risk</h2>
+            <p id="scopeLine" class="muted"></p>
+          </div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card tilt">
+          <h3>Residual risk by domain</h3>
+          <div id="domains" class="bars"></div>
+        </div>
+        <div class="card tilt">
+          <h3>AI policy compliance</h3>
+          <div id="policy" class="policy-grid"></div>
+        </div>
+      </div>
+
+      <div class="card tilt">
+        <h3>Standards coverage</h3>
+        <div id="frameworks" class="fw-grid"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card tilt">
+          <h3>Top findings</h3>
+          <div id="findings" class="findings"></div>
+        </div>
+        <div class="card tilt">
+          <h3>NIST AI RMF metrics</h3>
+          <div id="nist" class="nist"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Assessment -->
+    <section id="view-assess" class="view" hidden>
+      <div class="assess-layout">
+        <aside class="side card">
+          <div class="progress"><div class="progress-fill" id="progFill"></div></div>
+          <p class="muted small" id="progText"></p>
+          <div id="domainNav" class="domain-nav"></div>
+          <button class="btn ghost small" id="resetBtn">Clear all answers</button>
+        </aside>
+        <div id="qlist" class="qlist"></div>
+      </div>
+    </section>
+
+    <!-- Standards map -->
+    <section id="view-tags" class="view" hidden>
+      <div class="card">
+        <div class="tag-filter">
+          <label for="fwSel">Framework</label>
+          <select id="fwSel"></select>
+          <label for="clSel">Clause</label>
+          <select id="clSel"></select>
+        </div>
+        <div id="tagHits" class="tag-hits"></div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

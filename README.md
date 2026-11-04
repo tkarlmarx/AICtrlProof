@@ -150,6 +150,13 @@ No Docker, fast demo:
 python3 -m http.server --directory results 9000   # /report.html and /assessment.html
 ```
 
+Web app (login, fill the assessment, live dashboard, standards map):
+
+```bash
+CTRLPROOF_PASSWORD='choose-one' HOST=0.0.0.0 PORT=8090 python3 app/server.py
+# open http://<server-ip>:8090  (user: admin, or set CTRLPROOF_USER)
+```
+
 As an MCP server:
 
 ```bash

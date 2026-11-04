@@ -13,3 +13,4 @@ run/
 keys.env
 *.env.local
 __pycache__/
+app/data/
