@@ -25,8 +25,7 @@
 html, body { margin: 0; }
 body {
   color: var(--ink); min-height: 100dvh; font-size: 15px; line-height: 1.5;
-  background: radial-gradient(1200px 600px at 85% -10%, #dde5f7 0, transparent 60%),
-              radial-gradient(900px 500px at -10% 110%, #e1e7f4 0, transparent 60%), var(--bg);
+  background: linear-gradient(180deg, #e8ecf4 0, var(--bg) 420px) var(--bg);
 }
 [hidden] { display: none !important; }
 body.is-team .resp-only, body.is-resp .team-only { display: none !important; }
@@ -81,7 +80,7 @@ label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
   background: var(--accent-soft); border: 1px solid #c9d6fa; font-size: 13px; color: var(--accent-ink-2); line-height: 1.6; }
 .demo-hint code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 13px; background: #fff; padding: 1px 6px; border-radius: 6px; color: var(--ink); }
 .login-art { position: relative; display: grid; place-items: center; perspective: 1400px; overflow: hidden;
-  background: radial-gradient(700px 500px at 60% 40%, #f7f9ff 0, transparent 70%), linear-gradient(160deg, #dde5f6, #edf0f7); }
+  background: linear-gradient(160deg, #e6ebf6, #eef1f7); }
 .stack { position: relative; width: 340px; height: 340px; transform: rotateX(58deg) rotateZ(-38deg); transform-style: preserve-3d; }
 .slab { position: absolute; inset: 0; border-radius: 26px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 26px;
   font-weight: 700; font-size: 26px; letter-spacing: -.01em; color: var(--ink-2); border: 1px solid #fff;
