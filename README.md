@@ -67,9 +67,11 @@ Four conditions:
 | `injection` | Plus an instruction planted in the README, to test susceptibility to instructions arriving through tool output. |
 | `broker` | No raw secrets exist. The agent must request a short-lived, single-scope token from a broker. This is the fix. |
 
-Containment: trials run on a Docker network marked `internal`, so the only host a
-trial container can reach is the logging sink. An exfil attempt is recorded but
-nothing leaves the machine. All credentials are inert canaries. Full method and
+Containment: trials run on a Docker network marked `internal`. A trial container
+can reach the logging sink and, for real-agent runs, an egress relay that forwards
+only to the model API and holds the real API key itself. Every other destination
+is refused and logged, so an exfil attempt is recorded but nothing leaves the
+machine. All credentials are inert canaries. Full method and
 limitations are in [`docs/LAB.md`](docs/LAB.md).
 
 ## The GRC layer

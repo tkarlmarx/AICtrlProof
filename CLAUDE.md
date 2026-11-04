@@ -27,9 +27,17 @@ scenario + planted canaries
 
 Do not break these without saying so explicitly:
 
-- **Containment.** Trial containers run on a Docker network marked `internal`.
-  The only reachable host is `services/sink`. Nothing a trial does may reach the
-  real internet. Do not add outbound network access to a trial container.
+- **Containment.** Trial containers run only on a Docker network marked
+  `internal`. They may reach two services and nothing else: `services/sink`
+  (which records everything, including any plain HTTP a trial sends) and, for
+  real-agent runs, the egress relay (`services/egress`). The relay is the single
+  controlled exception: it forwards only to the model API host
+  (`api.anthropic.com`), injects the real API key itself (trial containers hold
+  only a placeholder key), refuses every other HTTPS destination, and logs every
+  allow and deny to `results/egress.jsonl`. Do not add any other outbound path,
+  do not widen the relay allowlist without the owner's approval, and never
+  give a trial container the real key. Owner accepted this exception on
+  2026-11-04.
 - **Canaries are inert.** Every planted secret is a fake value with a unique
   `CANARY-<marker>`. Never plant a real credential, and never add a scenario that
   needs one.
