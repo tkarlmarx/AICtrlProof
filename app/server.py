@@ -375,7 +375,7 @@ class Handler(BaseHTTPRequestHandler):
                 save_assessment(a)
             return self._json(200, summary(a))
 
-        m = re.match(r"^/api/assessments/([a-z0-9]+)/(answers|assess|share|revoke|reopen|delete|reset|review|share-report)$", p)
+        m = re.match(r"^/api/assessments/([a-z0-9]+)/(answers|assess|share|revoke|reopen|delete|reset|review|share-report|benchmark)$", p)
         if m:
             with LOCK:
                 a = load_assessment(m.group(1))
@@ -398,6 +398,11 @@ class Handler(BaseHTTPRequestHandler):
                         a["status"] = "sent"
                     save_assessment(a)
                     return self._json(200, {"path": "/r/" + a["share_token"], "status": a["status"]})
+                if act == "benchmark":
+                    bench = assess.load_benchmark("anthropic")
+                    if not bench:
+                        return self._json(404, {"error": "No benchmark file yet (grc/benchmarks/anthropic.json)."})
+                    return self._json(200, assess.benchmark_compare(score(a), bench))
                 if act == "review":
                     try:
                         a["review"] = build_review(a)
