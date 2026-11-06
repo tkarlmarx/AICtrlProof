@@ -154,8 +154,9 @@ Web app (login, fill the assessment, live dashboard, standards map):
 
 ```bash
 HOST=0.0.0.0 PORT=8090 python3 app/server.py
-# open http://<server-ip>:8090. Demo mode: admin / ctrlproof-demo, shown on the login page.
-# Set CTRLPROOF_PASSWORD (and CTRLPROOF_USER) to turn demo mode off.
+# open http://<server-ip>:8090. Set CTRLPROOF_USER and CTRLPROOF_PASSWORD first.
+# Without CTRLPROOF_PASSWORD the app makes a random demo password at each start and
+# prints it to the server console. It is shown on the login page only on 127.0.0.1.
 ```
 
 As an MCP server:

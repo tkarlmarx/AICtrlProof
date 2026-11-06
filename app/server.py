@@ -10,9 +10,10 @@ Run:
     python3 app/server.py                          # http://127.0.0.1:8090
     HOST=0.0.0.0 PORT=8090 python3 app/server.py   # reachable on your network
 
-Login: with no CTRLPROOF_PASSWORD the app runs in demo mode (admin /
-ctrlproof-demo, shown on the login page). Set CTRLPROOF_USER and
-CTRLPROOF_PASSWORD for anything beyond a demo.
+Login: set CTRLPROOF_USER and CTRLPROOF_PASSWORD. With no CTRLPROOF_PASSWORD
+the app runs in demo mode with a random password made at each start and
+printed to the server console. The login page shows it only when the app is
+bound to loopback (127.0.0.1); on any network bind it is never shown.
 
 Assessments:
   internal     your own AI system; lab-tested controls come from the lab.
@@ -43,12 +44,16 @@ sys.path.insert(0, os.path.join(ROOT, "grc"))
 sys.path.insert(0, HERE)
 import assess  # noqa: E402
 
-# Demo mode: with no CTRLPROOF_PASSWORD set, fixed demo credentials are used and
-# shown on the login page. Set CTRLPROOF_PASSWORD to turn demo mode off.
-DEMO_USER, DEMO_PASSWORD = "admin", "ctrlproof-demo"
+# Demo mode: with no CTRLPROOF_PASSWORD set, a random password is made at each
+# start (never a fixed one) and printed to the server console. The login page
+# shows it only when the server is bound to loopback. Set CTRLPROOF_PASSWORD to
+# turn demo mode off.
+DEMO_USER = "admin"
 DEMO = not os.environ.get("CTRLPROOF_PASSWORD")
 USER = os.environ.get("CTRLPROOF_USER", DEMO_USER)
-PASSWORD = DEMO_PASSWORD if DEMO else os.environ["CTRLPROOF_PASSWORD"]
+PASSWORD = secrets.token_urlsafe(12) if DEMO else os.environ["CTRLPROOF_PASSWORD"]
+LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1"}
+SHOW_DEMO_HINT = False  # set in main(): only for a loopback bind in demo mode
 SESSIONS = {}  # token -> user
 LOCK = threading.Lock()
 ID_RE = re.compile(r"^[a-z0-9]{8,32}$")
@@ -273,8 +278,9 @@ class Handler(BaseHTTPRequestHandler):
                 return self._html(404, "<h1>Report link not valid or revoked.</h1>")
             return self._html(200, build_report(hit))
         if p == "/api/demo":
-            return self._json(200, {"demo": DEMO, "user": USER if DEMO else None,
-                                    "password": PASSWORD if DEMO else None})
+            show = DEMO and SHOW_DEMO_HINT
+            return self._json(200, {"demo": show, "user": USER if show else None,
+                                    "password": PASSWORD if show else None})
         if p == "/api/me":
             u = self._user()
             return self._json(200 if u else 401, {"user": u})
@@ -436,11 +442,15 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
+    global SHOW_DEMO_HINT
     ensure_seed()
     host = os.environ.get("HOST", "127.0.0.1")
+    SHOW_DEMO_HINT = DEMO and host in LOOPBACK_HOSTS
     port = int(os.environ.get("PORT", "8090"))
     srv = ThreadingHTTPServer((host, port), Handler)
-    mode = f"demo login {USER} / {PASSWORD} (shown on the login page)" if DEMO \
+    where = "shown on the login page" if SHOW_DEMO_HINT else \
+        "not shown on the login page because the app is on a network bind"
+    mode = f"demo login {USER} / {PASSWORD} (random for this run, {where})" if DEMO \
         else f"login {USER} / (from CTRLPROOF_PASSWORD)"
     print(f"AICtrlProof app on http://{host}:{port}  {mode}", flush=True)
     srv.serve_forever()
